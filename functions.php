@@ -204,5 +204,17 @@ endif;
 
 add_action( 'init', 'twentytwentyfour_pattern_categories' );
 
+// Use style.css
+
+function enqueue_theme_style_css() {
+    wp_enqueue_style(
+        'theme-style',
+        get_stylesheet_uri(),
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('wp_enqueue_scripts', 'enqueue_theme_style_css');
+
 // Include custom functions
 require_once get_template_directory() . '/custom-functions.php';
