@@ -7,7 +7,7 @@ Description: Twenty Twenty-Four is designed to be flexible, versatile and applic
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.0
-Version: 1.36
+Version: 1.37
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: edu-blogs-theme
@@ -20,7 +20,14 @@ Text Domain: edu-blogs-theme
 
 .blog-article-archive-card {
     box-shadow: var(--wp--preset--shadow--deep);
-    border-radius: 5px;
+    border-radius:0 0 10px 10px !important;
+
+}
+.textwidget{
+    border-radius:10px;
+}
+li:has(.blog-article-archive-card) img {
+    border-radius: 10px 10px 0 0 !important;
 }
 
 .wp-block-columns {
@@ -135,3 +142,8 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
     padding-bottom: 6px;
 }
 
+/*Fixing Mobile font size for post content*/
+.wp-block-post-content-is-layout-flow {
+    font-size:18px!important;
+    }
+    
