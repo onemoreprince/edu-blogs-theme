@@ -205,4 +205,4 @@ endif;
 add_action( 'init', 'twentytwentyfour_pattern_categories' );
 
 // Include custom functions
-// require_once get_template_directory() . '/custom-functions.php';
+require_once get_template_directory() . '/custom-functions.php';

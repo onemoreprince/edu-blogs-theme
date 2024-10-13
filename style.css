@@ -13,3 +13,92 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentytwentyfour
 Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
 */
+
+
+:root :where(.wp-block-columns .wp-element-button,.wp-block-columns .wp-block-button__link) {
+    color: var(--wp--preset--color--base);
+}
+	.blog-article-archive-card{
+		box-shadow: var(--wp--preset--shadow--deep);
+		border-radius: 5px;
+	}
+/****My written CSS**/
+.wp-block-columns {
+       align-items: flex-start!important;
+}
+
+
+div.textwidget p:not(.has-background):last-of-type {
+    padding-bottom: 0.5em;
+}
+div.textwidget p {
+    padding-bottom: 0.5em;
+}
+div.textwidget a {
+    color: #5D3FD3!important;
+}
+
+h4.widgettitle {
+    border-bottom:2px lightgrey dotted;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.textwidget ol {
+    list-style-type: lower-alpha;
+	list-style-position: outside;
+    padding-left: 15px;
+}
+
+
+	
+/*Sidebar global*/
+.et_pb_widget ul li {
+list-style-type: square;
+}
+.et_pb_widget ul {
+    margin-left:15px;
+    margin-bottom:15px;
+}
+
+
+
+header#main-header {
+    z-index:999!important;
+}
+
+
+	
+/**Rate my post feedback**/
+.rmp-widgets-container{
+    border: 2px solid #5D3FD3;
+    border-radius:8px;
+    padding-top:20px;
+    padding-bottom:30px;
+    margin-top:30px!important;
+    
+}
+p.rmp-heading.rmp-heading--title {
+    font-weight:bold;
+    color:#5D3FD3;
+}
+
+button.rmp-feedback-widget__btn.rmp-btn.rmp-btn--large.js-rmp-feedback-button {
+        background: var(--wp--preset--color--accent);
+        font: var(--wp--preset--font-family--outfit);
+        font-size:16px;
+        border-radius:5px;
+}
+textarea#feedback-text {
+        font-family:unset;
+        width:100%;
+        font-size:1.05rem;
+}
+p.rmp-heading.rmp-heading--title {
+    font-size:unset;
+}
+
+p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
+    font-weight:bold;
+}
+
