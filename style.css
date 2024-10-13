@@ -134,3 +134,29 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 	transform: translate(-50%, -100%); 
   }
 }
+
+       
+#footer-sites {
+    padding: 50px 5vw;
+}
+
+#footer-sites h3 {
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+    min-width: 300px;
+    margin: 4px;
+}
+
+.pmb-print-this-page.wp-block-button a {
+    color: #fff !important;
+    text-decoration: none;
+}

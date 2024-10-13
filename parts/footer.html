@@ -1,28 +1,51 @@
-<div id="common-footer"></div>
-
-<script>
-    // URL of the hosted footer content
-    const footerContentUrl = 'https://onemoreprince.com/footer-content.html';
-
-    // Fetch and load the footer content
-    fetch(footerContentUrl)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('common-footer').innerHTML = data;
-
-            // Get the current site URL
-            const currentSiteUrl = window.location.origin;
-
-            // Hide the current site from the footer
-            const links = document.querySelectorAll('#common-footer a');
-            links.forEach(link => {
-                if (link.href === currentSiteUrl || link.href === currentSiteUrl + '/') {
-                    link.parentElement.style.display = 'none';
-                }
-            });
-        })
-        .catch(error => console.error('Error loading footer content:', error));
-</script>
+<div id="common-footer">
+    <div style="background-color: #efefef; text-align: center; padding: 60px 20px;">
+      <h3>Report a missing Topic/Subject</h3>
+      <p style="padding-bottom: 40px;">Share the details and we will consider adding that</p>
+      <a class="et_pb_button wp-block-button__link wp-element-button" href="mailto:hello@onemoreprince.com?subject=Reporting%20missing%20Subject%2FTopic&body=Hi%20Prince%2C%20%0AThe%20following%20topics%2Fsubjects%20are%20missing%0A-%20%0A-%20%0AIts%20part%20of%20the%20course%20______%20at%20university%2Fcollege%20________%0A%0AThanks%20"
+        onclick="this.href=this.href + '%0A%0ASubmitted%20on%20Page:%20' + encodeURIComponent(window.location.href);">
+        Send Email
+      </a>
+    </div>
+  
+    <div id="footer-sites">
+      <h3>Our Other Sites</h3>
+      <div class="footer-columns">
+        <div class="column"><a href="https://hmhub.in">HM Hub 🏨</a></div>
+        <div class="column"><a href="https://themba.institute">The MBA Institute 🎓</a></div>
+        <div class="column"><a href="https://thepsychology.institute">The Psychology Institute 🧠</a></div>
+        <div class="column"><a href="https://thelaw.institute">The Law Institute ⚖️</a></div>
+        <div class="column"><a href="https://journalism.university">Journalism University 📰</a></div>
+        <div class="column"><a href="https://banotes.org">BA Notes 📚</a></div>
+        <div class="column"><a href="https://philosophy.institute">Philosophy Institute 💭</a></div>
+        <div class="column"><a href="https://sociology.institute">Sociology Institute 👥</a></div>
+        <div class="column"><a href="https://teachers.institute">Teachers Institute 🍎</a></div>
+        <div class="column"><a href="https://thetourism.institute">The Tourism Institute 🌍</a></div>
+        <div class="column"><a href="https://bns.institute">Nursing Institute 🏥</a></div>
+        <div class="column"><a href="https://bcom.institute">B.Com Institute 📊</a></div>
+        <div class="column"><a href="https://anthropology.institute">Anthropology Institute 🧬</a></div>
+        <div class="column"><a href="https://retailing.education">Retailing Education 🛍️</a></div>
+        <div class="column"><a href="https://pubadmin.institute">Public Administration Institute 🏛️</a></div>
+        <div class="column"><a href="https://polsci.institute">Political Science Institute 🗳️</a></div>
+        <div class="column"><a href="https://fsq.institute">FSQ Institute 🧪</a></div>
+        <div class="column"><a href="https://agriculture.institute">Agriculture Institute 🌱</a></div>
+        <div class="column"><a href="https://solvedpapers.org">Solved Papers 🥳</a></div>
+        </div>
+    </div>
+  
+    <script>
+      // Get the current site URL
+      const currentSiteUrl = window.location.origin;
+  
+      // Hide the current site from the footer
+      const links = document.querySelectorAll('#common-footer a');
+      links.forEach(link => {
+        if (link.href === currentSiteUrl || link.href === currentSiteUrl + '/') {
+          link.parentElement.style.display = 'none';
+        }
+      });
+    </script>
+  </div>
 
 
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}},"backgroundColor":"accent","layout":{"type":"constrained"}} -->
