@@ -1,9 +1,10 @@
 <?php
-// Google Adsense Code
+// Google Adsense Code & Instant Page
 function add_google_adsense_script() {
     ?>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7772226184406759"
         crossorigin="anonymous"></script>
+        <script src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
     <?php
 }
 add_action('wp_head', 'add_google_adsense_script');
