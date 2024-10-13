@@ -132,5 +132,6 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
     list-style-type: lower-alpha;
     list-style-position: outside;
     padding-left: 15px;
+    padding-bottom: 6px;
 }
 

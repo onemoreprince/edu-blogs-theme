@@ -889,7 +889,7 @@
             "background": "var(--wp--preset--color--base)",
             "text": "var(--wp--preset--color--contrast-2)"
         },
-        "css": ":where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}\n\n.syllabus-sidebar h4 {\n    border-bottom: 1px  dotted;\n    margin-bottom: 10px;\n    margin-top: 10px;\n}\n.syllabus-sidebar ol {\n    list-style-type: lower-alpha;\n    list-style-position: outside;\n    padding-left: 15px;\n}\n.syllabus-sidebar> ul,li,ol,a,p{\n    margin-bottom:5px;\n}\n",
+        "css": ":where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}\n\n",
         "elements": {
             "button": {
                 ":active": {
