@@ -7,11 +7,10 @@ Description: Twenty Twenty-Four is designed to be flexible, versatile and applic
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.0
-Version: 1.31
+Version: 1.32
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: twentytwentyfour
-Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
+Text Domain: edu-blogs-theme
 */
 
 
@@ -57,19 +56,13 @@ h4.widgettitle {
 
 
 /*Sidebar global*/
-.et_pb_widget ul li {
+.textwidget ul li {
     list-style-type: square;
 }
 
-.et_pb_widget ul {
+.textwidgetet_pb_widget ul {
     margin-left: 15px;
     margin-bottom: 15px;
-}
-
-
-
-header#main-header {
-    z-index: 999 !important;
 }
 
 
