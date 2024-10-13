@@ -145,5 +145,9 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 /*Fixing Mobile font size for post content*/
 .wp-block-post-content-is-layout-flow {
     font-size:18px!important;
-    }
-    
+ }
+
+/*Essential Block Navigation Menu mobile*/    
+span.eb-menu-indicator {
+    background:var(--wp--preset--color--accent)!important;
+}
