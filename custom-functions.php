@@ -56,7 +56,7 @@ function syllabus_shortcode() {
                 
                 if ( $syllabus ) {
                     // Return the syllabus content (since it's a WYSIWYG, it contains HTML)
-                    $output .= '<div class="syllabus textwidget"><h4>' . esc_html( $category->name ) . '</h4><p>' . $syllabus . '</p></div>';
+                    $output .= '<div class="syllabus-sidebar"><h4>' . esc_html( $category->name ) . '</h4><p>' . $syllabus . '</p></div>';
                 }
             }
         }
@@ -70,7 +70,7 @@ function syllabus_shortcode() {
             
             if ( $syllabus ) {
                 // Return the syllabus content (since it's a WYSIWYG, it contains HTML)
-                $output = '<div class="syllabus textwidget"><h4>' . esc_html( $category->name ) . '</h4><p>' . $syllabus . '</p></div>';
+                $output = '<div class="syllabus-sidebar"><h4>' . esc_html( $category->name ) . '</h4><p>' . $syllabus . '</p></div>';
             }
         }
     }
