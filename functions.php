@@ -7,7 +7,6 @@
  * @package Twenty Twenty-Four
  * @since Twenty Twenty-Four 1.0
  */
-
 /**
  * Register block styles.
  */

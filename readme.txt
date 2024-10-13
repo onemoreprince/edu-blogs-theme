@@ -1,5 +1,5 @@
-=== Twenty Twenty-Four ===
-Contributors: wordpressdotorg
+=== Edu Blogs Theme ===
+Contributors: onemoreprince
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.0
