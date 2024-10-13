@@ -43,13 +43,10 @@ Text Domain: edu-blogs-theme
     padding-left: 15px;
 }
 
-.textwidget p,li,ul,ol{
-    font-size:16px;
-    line-height:1.3em;
-    padding-bottom:8px;
+.textwidget p,li,ul,ol,a{
+    line-height:1.3em!important;
+    padding-bottom:8px!important;
 }
-
-
 
 
 
@@ -60,7 +57,6 @@ Text Domain: edu-blogs-theme
     padding-top: 20px;
     padding-bottom: 30px;
     margin-top: 30px !important;
-
 }
 
 p.rmp-heading.rmp-heading--title {
@@ -127,28 +123,23 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 #footer-sites {
     padding: 50px 5vw;
 }
-
 #footer-sites h3 {
     text-align: center;
     padding-bottom: 50px;
 }
-
 .footer-columns {
     display: flex;
     flex-wrap: wrap;
 }
-
 .footer-columns .column {
     flex: 1;
     min-width: 300px;
     margin: 4px;
 }
-
 .footer-columns .column a {
     color: var(--wp--preset--color--contrast-2);
     text-decoration: none;
 }
-
 .pmb-print-this-page.wp-block-button a {
     color: var(--wp--preset--color--white);
     text-decoration: none;
