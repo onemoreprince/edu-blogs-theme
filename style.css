@@ -33,8 +33,8 @@ Text Domain: edu-blogs-theme
 
 .textwidget h4 {
     border-bottom: 2px lightgrey dotted;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .textwidget ol {
@@ -42,6 +42,13 @@ Text Domain: edu-blogs-theme
     list-style-position: outside;
     padding-left: 15px;
 }
+
+.textwidget p,li,ul,ol{
+    font-size:16px;
+    line-height:1.3em;
+    padding-bottom:8px;
+}
+
 
 
 
