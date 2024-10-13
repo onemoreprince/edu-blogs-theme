@@ -160,7 +160,7 @@
                     "slug": "contrast"
                 },
                 {
-                    "color": "#636363",
+                    "color": "#3f3f3f",
                     "name": "Contrast / Two",
                     "slug": "contrast-2"
                 },
@@ -175,17 +175,17 @@
                     "slug": "accent"
                 },
                 {
-                    "color": "#5d3fd3",
+                    "color": "#efecfb",
                     "name": "Accent / Two",
                     "slug": "accent-2"
                 },
                 {
-                    "color": "#5d3fd3",
+                    "color": "#251954",
                     "name": "Accent / Three",
                     "slug": "accent-3"
                 },
                 {
-                    "color": "#5d3fd3",
+                    "color": "#8e79e0",
                     "name": "Accent / Four",
                     "slug": "accent-4"
                 },
@@ -200,7 +200,7 @@
                     "slug": "custom-purple"
                 },
                 {
-                    "color": "#2a2b2b",
+                    "color": "#0f0f0f",
                     "name": "Dark Text",
                     "slug": "custom-dark-text"
                 }
@@ -209,6 +209,9 @@
         "layout": {
             "contentSize": "720px",
             "wideSize": "1280px"
+        },
+        "shadow": {
+            "presets": []
         },
         "spacing": {
             "defaultSpacingSizes": false,
@@ -886,7 +889,7 @@
             "background": "var(--wp--preset--color--base)",
             "text": "var(--wp--preset--color--contrast-2)"
         },
-        "css": ":where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}\n",
+        "css": ":where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}\n\n.syllabus-sidebar h4 {\n    border-bottom: 1px  dotted;\n    margin-bottom: 10px;\n    margin-top: 10px;\n}\n.syllabus-sidebar ol {\n    list-style-type: lower-alpha;\n    list-style-position: outside;\n    padding-left: 15px;\n}\n.syllabus-sidebar> ul,li,ol,a,p{\n    margin-bottom:5px;\n}\n",
         "elements": {
             "button": {
                 ":active": {
@@ -960,29 +963,35 @@
                 "typography": {
                     "fontSize": "var(--wp--preset--font-size--x-large)",
                     "fontStyle": "normal",
-                    "fontWeight": "400"
+                    "fontWeight": "700"
                 }
             },
             "h3": {
                 "typography": {
                     "fontSize": "var(--wp--preset--font-size--large)",
                     "fontStyle": "normal",
-                    "fontWeight": "400"
+                    "fontWeight": "700"
                 }
             },
             "h4": {
                 "typography": {
-                    "fontSize": "clamp(1.1rem, 1.1rem + ((1vw - 0.2rem) * 0.767), 1.5rem)"
+                    "fontSize": "clamp(1.1rem, 1.1rem + ((1vw - 0.2rem) * 0.767), 1.5rem)",
+                    "fontStyle": "normal",
+                    "fontWeight": "700"
                 }
             },
             "h5": {
                 "typography": {
-                    "fontSize": "var(--wp--preset--font-size--medium)"
+                    "fontSize": "var(--wp--preset--font-size--medium)",
+                    "fontStyle": "normal",
+                    "fontWeight": "700"
                 }
             },
             "h6": {
                 "typography": {
-                    "fontSize": "var(--wp--preset--font-size--small)"
+                    "fontSize": "var(--wp--preset--font-size--small)",
+                    "fontStyle": "normal",
+                    "fontWeight": "700"
                 }
             },
             "heading": {
@@ -1012,7 +1021,7 @@
             }
         },
         "spacing": {
-            "blockGap": "1.2rem",
+            "blockGap": "1.5rem",
             "padding": {
                 "left": "var(--wp--preset--spacing--50)",
                 "right": "var(--wp--preset--spacing--50)"

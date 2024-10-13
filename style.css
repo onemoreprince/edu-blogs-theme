@@ -23,13 +23,9 @@ Text Domain: edu-blogs-theme
     border-radius: 5px;
 }
 
-/****My written CSS**/
 .wp-block-columns {
     align-items: flex-start !important;
 }
-
-
-
 
 
 /**Rate my post feedback**/
@@ -125,4 +121,22 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 .pmb-print-this-page.wp-block-button a {
     color: var(--wp--preset--color--white);
     text-decoration: none;
+}
+
+.syllabus-sidebar h4 {
+    border-bottom: 1px  dotted;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.syllabus-sidebar ol {
+    list-style-type: lower-alpha;
+    list-style-position: outside;
+    padding-left: 15px;
+}
+.syllabus-sidebar ul,
+.syllabus-sidebar li,
+.syllabus-sidebar ol,
+.syllabus-sidebar a,
+.syllabus-sidebar p {
+    margin-bottom: 5px;
 }
