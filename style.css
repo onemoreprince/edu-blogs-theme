@@ -148,6 +148,6 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
  }
 
 /*Essential Block Navigation Menu mobile*/    
-span.eb-menu-indicator {
-    background:var(--wp--preset--color--accent)!important;
+div.eb-nav-contents span.eb-menu-indicator {
+    background:#5D3FD3!important;
 }
