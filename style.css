@@ -106,11 +106,11 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 
 
 #footer-sites {
-    padding: 50px 5vw;
+    padding: 30px 5vw;
 }
 #footer-sites h3 {
     text-align: center;
-    padding-bottom: 50px;
+    padding-bottom: 30px;
 }
 .footer-columns {
     display: flex;
