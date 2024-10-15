@@ -111,6 +111,9 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 #footer-sites h3 {
     text-align: center;
 }
+#footer-sites p {
+    text-align: center;
+}
 .footer-columns {
     display: flex;
     flex-wrap: wrap;
