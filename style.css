@@ -153,3 +153,10 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 div.eb-nav-contents span.eb-menu-indicator {
     background:#5D3FD3!important;
 }
+
+div.wp-block-post-content h3,
+div.wp-block-post-content h4,
+div.wp-block-post-content h5,
+div.wp-block-post-content h6{
+    color:var(--wp--preset--color--contrast-2);
+}
