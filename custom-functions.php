@@ -5,6 +5,13 @@ function add_google_adsense_script() {
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7772226184406759"
         crossorigin="anonymous"></script>
         <script src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
+        <script>
+	document.querySelectorAll('p').forEach(function(paragraph) {
+    if (paragraph.textContent.startsWith('[Image:') && paragraph.textContent.endsWith(']')) {
+        paragraph.style.display = 'none';
+    }
+});
+</script>
     <?php
 }
 add_action('wp_head', 'add_google_adsense_script');
