@@ -18,16 +18,18 @@ Text Domain: edu-blogs-theme
     color: var(--wp--preset--color--base);
 }
 
-.blog-article-archive-card {
-    box-shadow: var(--wp--preset--shadow--deep);
-    border-radius:0 0 10px 10px !important;
+.blog-article-archive-card,.edu-post-content {
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24);
+    border-radius:0 0 8px 8px !important;
 
 }
 .textwidget{
-    border-radius:10px;
+    border-radius:8px;
+    font-size:16px;
 }
+
 li:has(.blog-article-archive-card) img {
-    border-radius: 10px 10px 0 0 !important;
+    border-radius: 8px 0px 0 0 !important;
 }
 
 .wp-block-columns {
@@ -154,9 +156,9 @@ div.eb-nav-contents span.eb-menu-indicator {
     background:#5D3FD3!important;
 }
 
-div.wp-block-post-content h3,
-div.wp-block-post-content h4,
-div.wp-block-post-content h5,
-div.wp-block-post-content h6{
+div.edu-post-content h3,
+div.edu-post-content h4,
+div.edu-post-content h5,
+div.edu-post-content h6{
     color:var(--wp--preset--color--contrast-2);
 }
