@@ -19,18 +19,18 @@ Text Domain: edu-blogs-theme
 }
 
 .blog-article-archive-card {
-    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24);
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24)!important;
     border-radius:0 0 8px 8px !important;
 }
 .edu-post-content {
-    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24);
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24)!important;
     border-radius:0 0 8px 8px !important;
     padding-top:20px;
 }
 .textwidget{
     border-radius:8px;
     font-size:16px;
-    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24);
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24)!important;
     border-radius:0 0 8px 8px !important;
 }
 
