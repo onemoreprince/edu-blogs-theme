@@ -1,3 +1,61 @@
+<div id="notificationBar" class="notification-bar">
+  <span>Find semester exam solved papers at our dedicated website.</span>
+  <a href="https://solvedpapers.org" target="_blank" class="et_pb_button wp-block-button__link wp-element-button">Visit SolvedPapers.Org</a>
+  <button class="close-button" onclick="closeNotification()">×</button>
+</div>
+
+<script>
+  // Check if notification has been closed before
+  function checkNotificationStatus() {
+    const isHidden = localStorage.getItem('notificationHidden');
+    if (isHidden === 'true') {
+      document.getElementById('notificationBar').classList.add('hidden');
+    }
+  }
+
+  // Function to close notification
+  function closeNotification() {
+    document.getElementById('notificationBar').classList.add('hidden');
+    localStorage.setItem('notificationHidden', 'true');
+  }
+
+  // Check status when page loads
+  window.addEventListener('load', checkNotificationStatus);
+</script>
+
+<style>
+    <style>
+    .notification-bar {
+      background-color: #f8f9fa;
+      padding: 12px;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .notification-bar.hidden {
+      display: none;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 18px;
+      color: #666;
+    }
+
+  </style>
+</style>
 <div id="common-footer">
     <div style="background-color: #efefef; text-align: center; padding: 20px;">
       <h3>Report a missing Topic/Subject</h3>
