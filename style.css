@@ -169,34 +169,3 @@ div.edu-post-content h6{
     color:var(--wp--preset--color--contrast-2);
 }
 
-/*Custom Solved Paper Notification Bottom Bar CSS Start*/
-.notification-bar {
-    background-color: #000000;
-    padding: 12px;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 1000;
-  color:#fff;
-}
-
-  .notification-bar.hidden {
-    display: none;
-  }
-
-  .close-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 8px;
-    font-size: 22px;
-    color: #fff;
-  }
-/*Custom Solved Paper Notification Bottom Bar CSS end*/
