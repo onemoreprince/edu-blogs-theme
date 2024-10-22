@@ -170,7 +170,7 @@ div.edu-post-content h6{
 }
 
 /*Custom Solved Paper Notification Bottom Bar CSS Start*/
-div#notificationBar {
+.notificationBar {
     background-color: #000000;
     padding: 12px;
     text-align: center;
