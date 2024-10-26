@@ -7,7 +7,7 @@ Description: Twenty Twenty-Four is designed to be flexible, versatile and applic
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.0
-Version: 1.62
+Version: 1.63
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: edu-blogs-theme
@@ -160,6 +160,13 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 /*Essential Block Navigation Menu mobile*/    
 div.eb-nav-contents span.eb-menu-indicator {
     background:#5D3FD3!important;
+}
+
+li.wp-block-navigation-item {
+    padding:5px!important;
+}
+a.wp-block-navigation-item__content {
+        padding:10px!important;
 }
 
 div.edu-post-content h3,
