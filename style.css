@@ -161,6 +161,9 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 div.eb-nav-contents span.eb-menu-indicator {
     background:#5D3FD3!important;
 }
+ul.wp-block-navigation__submenu-container.wp-block-navigation-submenu {
+    z-index:10000!important;
+}
 
 li.wp-block-navigation-item {
     padding:5px!important;
