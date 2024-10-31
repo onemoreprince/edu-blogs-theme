@@ -13,26 +13,42 @@ function add_google_adsense_script() {
 });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Select all submenu toggle buttons
-    var submenuToggles = document.querySelectorAll('.wp-block-navigation-submenu__toggle');
+// Get all submenu items
+const submenus = document.querySelectorAll('.wp-block-navigation-submenu');
 
-    submenuToggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
+// Add click handlers to each submenu
+submenus.forEach(submenu => {
+  submenu.addEventListener('click', function(e) {
+    // Get the actual clicked element
+    const clickedElement = e.target.closest('.wp-block-navigation-submenu');
+    
+    // Only proceed if we clicked this submenu (not a child submenu)
+    if (clickedElement === this) {
+      // Stop event from reaching parent submenus
+      e.stopPropagation();
+      
+      // Toggle 'open' class on the clicked submenu
+      this.classList.toggle('open');
+      
+      // Optional: Close sibling submenus at the same level
+      const parent = this.parentElement;
+      const siblings = parent.querySelectorAll(':scope > .wp-block-navigation-submenu');
+      siblings.forEach(sibling => {
+        if (sibling !== this && sibling.classList.contains('open')) {
+          sibling.classList.remove('open');
+        }
+      });
+    }
+  });
+});
 
-            // Toggle 'open' class on parent <li> element
-            var parentLi = toggle.closest('li');
-            if (parentLi) {
-                parentLi.classList.toggle('open');
-            }
-
-            // Update aria-expanded attribute for accessibility
-            var isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-            toggle.setAttribute('aria-expanded', !isExpanded);
-        });
+// Optional: Close submenus when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.wp-block-navigation-submenu')) {
+    submenus.forEach(submenu => {
+      submenu.classList.remove('open');
     });
+  }
 });
 
 </script>

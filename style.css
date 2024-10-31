@@ -3,11 +3,11 @@ Theme Name: Education Blogs
 Theme URI: https://github.com/onemoreprince/edu-blogs-theme
 Author: Prince Kumar
 Author URI: https://onemoreprince.com
-Description: Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collection of templates and patterns tailor to different needs, such as presenting a business, blogging and writing or showcasing work. A multitude of possibilities open up with just a few adjustments to color and typography. Twenty Twenty-Four comes with style variations and full page designs to help speed up the site building process, is fully compatible with the site editor, and takes advantage of new design tools introduced in WordPress 6.4.
+Description: A custom theme for bunch of educational blog I manage. It contains many custom featured & my Adsense code.
 Requires at least: 6.4
 Tested up to: 6.6
 Requires PHP: 7.0
-Version: 1.64
+Version: 2.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: edu-blogs-theme
@@ -112,7 +112,6 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 }
 
 
-
 #footer-sites {
     padding: 30px 5vw;
 }
@@ -165,9 +164,7 @@ ul.wp-block-navigation__submenu-container.wp-block-navigation-submenu {
     z-index:10000!important;
 }
 
-li.wp-block-navigation-item {
-    padding:5px!important;
-}
+
 a.wp-block-navigation-item__content {
         padding:10px!important;
 }
@@ -178,4 +175,64 @@ div.edu-post-content h5,
 div.edu-post-content h6{
     color:var(--wp--preset--color--contrast-2);
 }
+
+/*Collapsible menu on mobile*/
+:where(.wp-site-blocks *:focus){outline-width:2px;outline-style:solid}
+
+
+/*CSS for fixing Desktop Nav Menu Block Styling*/
+
+ul.wp-block-navigation__submenu-container {
+width:350px!important;
+padding:20px;
+}
+li.wp-block-navigation-item {
+    padding:10px 8px 0px 5px!important;
+	margin:0!important;
+}
+div.wp-block-navigation__responsive-container {
+z-index:100000!important;
+}
+a.wp-block-navigation-item__content {
+padding:5px!important;
+}
+
+
+/*Additional to fix on mobile*/
+@media only screen and (max-width: 600px) {
+ul.wp-block-navigation-submenu {
+margin: 0 !important;
+padding: 0 !important;
+text-align: right;
+}
+
+a.wp-block-navigation-item__content {
+margin: 0 !important;
+padding: 0 !important;
+}
+
+li.has-child > a {
+font-weight: 600;
+border-bottom: 1px dotted;
+}
+
+li.wp-block-navigation-submenu > ul {
+display: none !important;
+}
+
+li.wp-block-navigation-submenu.open > ul {
+display: block !important;
+}
+	
+li.wp-block-navigation-submenu > a::after {
+content:" +";
+color:var(--wp--preset--color--accent);
+}
+li.wp-block-navigation-submenu.open > a::after {
+content:" -";
+color:var(--wp--preset--color--accent);
+}
+	
+}
+
 
