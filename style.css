@@ -45,7 +45,8 @@ li:has(.blog-article-archive-card) img {
 
 /**Rate my post feedback**/
 .rmp-widgets-container {
-    border: 2px solid #5D3FD3;
+    border: 2px solid;
+    border-color: var(--wp--preset--color--accent);
     border-radius: 8px;
     padding-top: 20px;
     padding-bottom: 30px;
@@ -158,7 +159,7 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 
 /*Essential Block Navigation Menu mobile*/    
 div.eb-nav-contents span.eb-menu-indicator {
-    background:#5D3FD3!important;
+    background:var(--wp--preset--color--accent)!important;
 }
 ul.wp-block-navigation__submenu-container.wp-block-navigation-submenu {
     z-index:10000!important;
