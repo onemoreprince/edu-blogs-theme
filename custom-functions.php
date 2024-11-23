@@ -290,3 +290,111 @@ function add_table_of_contents($content) {
     return preg_replace('/(<h[23].*?>.*?<\/h[23]>)/i', $toc . '$1', $modified_content, 1);
 }
 add_filter('the_content', 'add_table_of_contents', 20);
+
+/**
+ * WordPress Markdown to HTML Converter
+ * 
+ * This script converts Markdown-style formatting to HTML in WordPress posts
+ * while maintaining performance by processing a limited number of posts at a time.
+ */
+
+ class WP_Markdown_Fixer {
+    private $batch_size = 10; // Number of posts to process per batch
+    private $last_processed_id = 0; // Track last processed post ID
+    
+    public function __construct() {
+        // Hook into WordPress content filtering
+        add_filter('the_content', array($this, 'fix_markdown_in_content'), 20);
+        add_filter('content_save_pre', array($this, 'fix_markdown_in_content'), 20);
+        
+        // Schedule periodic processing of existing posts
+        add_action('init', array($this, 'schedule_processing'));
+        add_action('wp_markdown_fixer_cron', array($this, 'process_existing_posts'));
+    }
+    
+    /**
+     * Schedule the cron job if not already scheduled
+     */
+    public function schedule_processing() {
+        if (!wp_next_scheduled('wp_markdown_fixer_cron')) {
+            wp_schedule_event(time(), 'hourly', 'wp_markdown_fixer_cron');
+        }
+    }
+    
+    /**
+     * Convert Markdown-style formatting to HTML
+     */
+    public function fix_markdown_in_content($content) {
+        if (empty($content)) {
+            return $content;
+        }
+        
+        // Convert **text** to <strong>text</strong>
+        $content = preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $content);
+        
+        // Remove any empty strong tags
+        $content = str_replace('<strong></strong>', '', $content);
+        
+        return $content;
+    }
+    
+    /**
+     * Process existing posts in small batches
+     */
+    public function process_existing_posts() {
+        global $wpdb;
+        
+        // Get batch of posts that haven't been processed yet
+        $posts = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ID, post_content 
+                FROM {$wpdb->posts} 
+                WHERE post_type = 'post' 
+                AND ID > %d 
+                AND post_content LIKE '%%**%%'
+                ORDER BY ID ASC 
+                LIMIT %d",
+                $this->last_processed_id,
+                $this->batch_size
+            )
+        );
+        
+        if (empty($posts)) {
+            // Reset last processed ID if no more posts found
+            $this->last_processed_id = 0;
+            update_option('wp_markdown_fixer_last_id', 0);
+            return;
+        }
+        
+        foreach ($posts as $post) {
+            $updated_content = $this->fix_markdown_in_content($post->post_content);
+            
+            // Only update if content has changed
+            if ($updated_content !== $post->post_content) {
+                $wpdb->update(
+                    $wpdb->posts,
+                    array('post_content' => $updated_content),
+                    array('ID' => $post->ID),
+                    array('%s'),
+                    array('%d')
+                );
+                
+                // Clear post cache
+                clean_post_cache($post->ID);
+            }
+            
+            $this->last_processed_id = $post->ID;
+        }
+        
+        // Store the last processed ID
+        update_option('wp_markdown_fixer_last_id', $this->last_processed_id);
+    }
+}
+
+// Initialize the class
+function init_wp_markdown_fixer() {
+    new WP_Markdown_Fixer();
+}
+
+// Hook into WordPress init
+add_action('init', 'init_wp_markdown_fixer');
