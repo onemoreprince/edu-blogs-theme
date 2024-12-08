@@ -12,6 +12,7 @@ License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: education-blogs
 Tags: 
+*/
 
 :root :where(.wp-block-columns .wp-element-button, .wp-block-columns .wp-block-button__link) {
     color: var(--wp--preset--color--base);
@@ -151,6 +152,10 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 }
 #footer-sites p {
     text-align: center;
+    font-size: 0.9rem;
+}
+#footer-sites a {
+    font-size: 0.9rem;
 }
 .footer-columns {
     display: flex;
@@ -266,35 +271,3 @@ color:var(--wp--preset--color--accent);
 	
 }
 
-
-/*Ajax Search Custom CSS*/
-#ajaxsearchlite1 .probox, div.asl_w .probox {
-    border: 2px solid var(--wp--preset--color--accent);
-}
-
-div.asl_w .probox .promagnifier .innericon svg {
-    fill: var(--wp--preset--color--accent);
-}
-
-#ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input {
-    font-family: var(--wp--preset--font-family--outfit);
-    font-size: 16px;
-}
-
-div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a {
-    font-weight: bold;
-    font-family: var(--wp--preset--font-family--outfit);
-    color: var(--wp--preset--color--accent);
-    font-size: 16px;
-}
-
-div.asl_r .results .item .asl_content .asl_desc {
-    font-size: 14px;
-}
-
-div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a:hover {
-    font-weight: bold;
-    font-family: var(--wp--preset--font-family--outfit);
-    color: var(--wp--preset--color--accent);
-    font-size: 16px;
-}
