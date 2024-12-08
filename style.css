@@ -152,11 +152,8 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 }
 #footer-sites p {
     text-align: center;
-    font-size: 0.9rem;
 }
-#footer-sites a {
-    font-size: 0.9rem;
-}
+
 .footer-columns {
     display: flex;
     flex-wrap: wrap;
@@ -169,6 +166,7 @@ p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
 .footer-columns .column a {
     color: var(--wp--preset--color--contrast-2);
     text-decoration: none;
+    font-size: 1rem;
 }
 .pmb-print-this-page.wp-block-button a {
     color: var(--wp--preset--color--white);
