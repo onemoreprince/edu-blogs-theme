@@ -1,7 +1,7 @@
 === Edu Blogs Theme ===
-Contributors: onemoreprince
+Contributors: Prince Kumar
 Requires at least: 6.4
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.0
 Stable tag: 1.2
 License: GPLv2 or later
@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Its a custom modified theme of 2024 to use on my educational sites, not recommended for public use. 
+A custom theme for bunch of educational blog I manage. It contains many custom featured &amp; my Adsense code.
 
 == Changelog ==
 
@@ -46,29 +46,14 @@ GNU General Public License for more details.
 
 This theme bundles the following third-party resources:
 
-=== Fonts ===
+== Fonts ==
 
-Cardo Font
-Copyright (c) 2002-2011, David J. Perry (hospes02@scholarsfonts.net)
-License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Source: http://scholarsfonts.net
+Outfit
+Copyright 2021 The Outfit Project Authors (https://github.com/Outfitio/Outfit-Fonts)
+Source: www.fragtypefoundry.xyz
+License: This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://scripts.sil.org/OFL
 
-Instrument Sans Font
-Copyright 2022 The Instrument Sans Project Authors.
-License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Source: https://github.com/Instrument/instrument-sans
-
-Inter Font
-Copyright 2020 The Inter Project Authors.
-License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Source: https://github.com/rsms/inter
-
-Jost Font
-Copyright 2020 The Jost Project Authors.
-License: SIL Open Font License, 1.1, https://opensource.org/licenses/OFL-1.1
-Source: https://github.com/indestructible-type/Jost
-
-=== Images ===
+== Images ==
 
 License: CC0 https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -84,3 +69,13 @@ hotel-facade.webp - https://www.rawpixel.com/image/3286725/free-photo-image-blac
 
 License: UNICODE LICENSE V3 https://www.unicode.org/license.txt
 icon-message.webp
+
+== Recommended Plugins ==
+
+Ajax Search Lite
+https://wordpress.org/plugins/ajax-search-lite/
+Adds Ajax Search
+Connect Matomo
+https://wordpress.org/plugins/wp-piwik/
+Add the Matomo tracking code
+

@@ -3,16 +3,46 @@ Theme Name: Education Blogs
 Theme URI: https://github.com/onemoreprince/edu-blogs-theme
 Author: Prince Kumar
 Author URI: https://onemoreprince.com
-Description: A custom theme for bunch of educational blog I manage. It contains many custom featured & my Adsense code.
+Description: A custom theme for bunch of educational blog I manage. It contains many custom featured &amp; my Adsense code.
 Requires at least: 6.4
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.0
-Version: 2.2
+Version: 2.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: edu-blogs-theme
-*/
+Text Domain: education-blogs
+Tags: 
 
+:root :where(.wp-block-columns .wp-element-button, .wp-block-columns .wp-block-button__link) {
+    color: var(--wp--preset--color--base);
+}
+
+.blog-article-archive-card {
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24)!important;
+    border-radius:0 0 8px 8px !important;
+}
+.edu-post-content {
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24)!important;
+    border-radius:0 0 8px 8px !important;
+    padding-top:20px;
+}
+.textwidget{
+    border-radius:8px;
+    font-size:16px;
+    box-shadow: 0px 10px 60px 0px rgba(103,151,255,0.24)!important;
+    border-radius:0 0 8px 8px !important;
+}
+
+li:has(.blog-article-archive-card) img {
+    border-radius: 8px 0px 0 0 !important;
+}
+
+.wp-block-columns {
+    align-items: flex-start !important;
+}
+
+
+/**Rate my post feedback**/
 
 :root :where(.wp-block-columns .wp-element-button, .wp-block-columns .wp-block-button__link) {
     color: var(--wp--preset--color--base);
