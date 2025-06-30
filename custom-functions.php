@@ -398,3 +398,333 @@ function init_wp_markdown_fixer() {
 
 // Hook into WordPress init
 add_action('init', 'init_wp_markdown_fixer');
+
+
+/**
+ * TextHover Custom Field Square Bracket Remover
+ * Removes square brackets from 'textHover' custom fields across all posts
+ * Runs daily via WordPress cron with logging and admin interface
+ */
+
+// Hook into WordPress initialization
+add_action('init', 'texthover_bracket_remover_init');
+
+function texthover_bracket_remover_init() {
+    // Schedule the daily cron job if not already scheduled
+    if (!wp_next_scheduled('texthover_clean_brackets_daily')) {
+        wp_schedule_event(time(), 'daily', 'texthover_clean_brackets_daily');
+    }
+    
+    // Hook the cleanup function to the cron event
+    add_action('texthover_clean_brackets_daily', 'texthover_clean_brackets_batch');
+}
+
+/**
+ * Add admin menu under Tools
+ */
+add_action('admin_menu', 'texthover_add_admin_menu');
+
+function texthover_add_admin_menu() {
+    add_management_page(
+        'TextHover Bracket Cleaner',
+        'TextHover Cleaner',
+        'manage_options',
+        'texthover-bracket-cleaner',
+        'texthover_admin_page'
+    );
+}
+
+/**
+ * Admin page callback
+ */
+function texthover_admin_page() {
+    $log_file = WP_CONTENT_DIR . '/texthover-bracket-cleaner.log';
+    
+    // Handle manual run
+    if (isset($_POST['run_manual']) && wp_verify_nonce($_POST['texthover_nonce'], 'texthover_manual_run')) {
+        texthover_clean_brackets_batch();
+        echo '<div class="notice notice-success"><p>Manual cleaning completed! Check the log below for results.</p></div>';
+    }
+    
+    // Handle log clearing
+    if (isset($_POST['clear_log']) && wp_verify_nonce($_POST['texthover_nonce'], 'texthover_clear_log')) {
+        if (file_exists($log_file)) {
+            unlink($log_file);
+            echo '<div class="notice notice-success"><p>Log file cleared successfully!</p></div>';
+        }
+    }
+    
+    // Get current stats
+    $total_posts_with_brackets = count(get_posts_with_textHover_brackets(1000));
+    $next_scheduled = wp_next_scheduled('texthover_clean_brackets_daily');
+    $next_run = $next_scheduled ? date('Y-m-d H:i:s', $next_scheduled) : 'Not scheduled';
+    
+    ?>
+    <div class="wrap">
+        <h1>TextHover Bracket Cleaner</h1>
+        
+        <div class="card">
+            <h2>Status</h2>
+            <table class="form-table">
+                <tr>
+                    <th>Posts with brackets remaining:</th>
+                    <td><?php echo $total_posts_with_brackets; ?></td>
+                </tr>
+                <tr>
+                    <th>Next scheduled run:</th>
+                    <td><?php echo $next_run; ?></td>
+                </tr>
+                <tr>
+                    <th>Log file location:</th>
+                    <td><?php echo $log_file; ?></td>
+                </tr>
+                <tr>
+                    <th>Log file exists:</th>
+                    <td><?php echo file_exists($log_file) ? 'Yes' : 'No'; ?></td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="card">
+            <h2>Actions</h2>
+            <form method="post" style="display: inline-block; margin-right: 10px;">
+                <?php wp_nonce_field('texthover_manual_run', 'texthover_nonce'); ?>
+                <input type="submit" name="run_manual" class="button button-primary" value="Run Manual Cleaning" />
+                <p class="description">Process up to 50 posts immediately</p>
+            </form>
+            
+            <form method="post" style="display: inline-block;">
+                <?php wp_nonce_field('texthover_clear_log', 'texthover_nonce'); ?>
+                <input type="submit" name="clear_log" class="button button-secondary" value="Clear Log File" onclick="return confirm('Are you sure you want to clear the log file?');" />
+                <p class="description">Remove all log entries</p>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>Log File Contents</h2>
+            <?php texthover_display_log_content($log_file); ?>
+        </div>
+    </div>
+    
+    <style>
+    .texthover-log-container {
+        background: #f1f1f1;
+        border: 1px solid #ccc;
+        padding: 15px;
+        max-height: 500px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+    .texthover-log-entry {
+        margin-bottom: 3px;
+        padding: 2px 0;
+    }
+    .texthover-log-date {
+        color: #0073aa;
+        font-weight: bold;
+    }
+    .texthover-log-posts {
+        color: #d54e21;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    </style>
+    <?php
+}
+
+/**
+ * Display log file content with formatting
+ */
+function texthover_display_log_content($log_file) {
+    if (!file_exists($log_file)) {
+        echo '<p><em>No log file found. The cleaner hasn\'t run yet or no changes have been made.</em></p>';
+        return;
+    }
+    
+    $log_content = file_get_contents($log_file);
+    
+    if (empty(trim($log_content))) {
+        echo '<p><em>Log file is empty.</em></p>';
+        return;
+    }
+    
+    // Split into lines and reverse to show newest first
+    $lines = array_reverse(array_filter(explode("\n", trim($log_content))));
+    
+    if (empty($lines)) {
+        echo '<p><em>No log entries found.</em></p>';
+        return;
+    }
+    
+    echo '<div class="texthover-log-container">';
+    
+    foreach ($lines as $line) {
+        if (empty(trim($line))) continue;
+        
+        // Parse log line format: [2025-06-30 10:30:15] Processed 3 posts - Post IDs: 123, 456, 789
+        if (preg_match('/^\[([^\]]+)\]\s*(.+)$/', $line, $matches)) {
+            $date = $matches[1];
+            $message = $matches[2];
+            
+            echo '<div class="texthover-log-entry">';
+            echo '<span class="texthover-log-date">[' . esc_html($date) . ']</span> ';
+            echo '<span class="texthover-log-message">' . esc_html($message) . '</span>';
+            echo '</div>';
+        } else {
+            // Fallback for malformed lines
+            echo '<div class="texthover-log-entry">' . esc_html($line) . '</div>';
+        }
+    }
+    
+    echo '</div>';
+    
+    // Show file size and entry count
+    $file_size = size_format(filesize($log_file));
+    $entry_count = count($lines);
+    echo '<p class="description">Log file size: ' . $file_size . ' | Total entries: ' . $entry_count . '</p>';
+}
+
+/**
+ * Main function to clean brackets in batches
+ */
+function texthover_clean_brackets_batch() {
+    $batch_size = 50; // Process 50 posts at a time to avoid memory issues
+    $processed_posts = [];
+    
+    // Get all posts with textHover meta field containing brackets
+    $posts_with_brackets = get_posts_with_textHover_brackets($batch_size);
+    
+    if (empty($posts_with_brackets)) {
+        return; // Nothing to process
+    }
+    
+    foreach ($posts_with_brackets as $post_id) {
+        if (process_post_textHover($post_id)) {
+            $processed_posts[] = $post_id;
+        }
+        
+        // Small delay to reduce server strain
+        usleep(10000); // 0.01 second delay
+    }
+    
+    // Log the changes if any posts were processed
+    if (!empty($processed_posts)) {
+        log_texthover_changes($processed_posts);
+    }
+    
+    // If we processed a full batch, schedule another run in 1 hour
+    if (count($posts_with_brackets) == $batch_size) {
+        wp_schedule_single_event(time() + 3600, 'texthover_clean_brackets_daily');
+    }
+}
+
+/**
+ * Get posts that have textHover fields with square brackets
+ */
+function get_posts_with_textHover_brackets($limit = 50) {
+    global $wpdb;
+    
+    $query = $wpdb->prepare("
+        SELECT DISTINCT post_id 
+        FROM {$wpdb->postmeta} 
+        WHERE meta_key = 'textHover' 
+        AND meta_value LIKE %s 
+        LIMIT %d
+    ", '%[%]%', $limit);
+    
+    $results = $wpdb->get_col($query);
+    
+    return $results ? array_map('intval', $results) : [];
+}
+
+/**
+ * Process individual post's textHover field
+ */
+function process_post_textHover($post_id) {
+    $textHover_content = get_post_meta($post_id, 'textHover', true);
+    
+    if (empty($textHover_content) || !is_string($textHover_content)) {
+        return false;
+    }
+    
+    // Check if content has square brackets pattern
+    if (!preg_match('/\[[^\]]+\]/', $textHover_content)) {
+        return false;
+    }
+    
+    // Remove square brackets from the beginning of lines
+    $cleaned_content = preg_replace('/^\[([^\]]+)\]/m', '$1', $textHover_content);
+    
+    // Also handle cases where brackets might not be at line start
+    $cleaned_content = preg_replace('/\[([^\]]+)\]\s*=>/m', '$1 =>', $cleaned_content);
+    
+    // Update the meta field if content changed
+    if ($cleaned_content !== $textHover_content) {
+        update_post_meta($post_id, 'textHover', $cleaned_content);
+        return true;
+    }
+    
+    return false;
+}
+
+/**
+ * Log changes made to textHover fields
+ */
+function log_texthover_changes($post_ids) {
+    $log_file = WP_CONTENT_DIR . '/texthover-bracket-cleaner.log';
+    $timestamp = current_time('Y-m-d H:i:s');
+    $post_ids_string = implode(', ', $post_ids);
+    
+    $log_entry = sprintf(
+        "[%s] Processed %d posts - Post IDs: %s\n",
+        $timestamp,
+        count($post_ids),
+        $post_ids_string
+    );
+    
+    // Append to log file
+    file_put_contents($log_file, $log_entry, FILE_APPEND | LOCK_EX);
+    
+    // Clean old log entries (keep only last year)
+    cleanup_old_logs($log_file);
+}
+
+/**
+ * Clean up log entries older than 1 year
+ */
+function cleanup_old_logs($log_file) {
+    if (!file_exists($log_file)) {
+        return;
+    }
+    
+    $lines = file($log_file, FILE_IGNORE_NEW_LINES);
+    $cutoff_date = date('Y-m-d', strtotime('-1 year'));
+    $filtered_lines = [];
+    
+    foreach ($lines as $line) {
+        // Extract date from log line format [Y-m-d H:i:s]
+        if (preg_match('/^\[(\d{4}-\d{2}-\d{2})/', $line, $matches)) {
+            if ($matches[1] >= $cutoff_date) {
+                $filtered_lines[] = $line;
+            }
+        }
+    }
+    
+    // Rewrite log file with filtered content
+    if (count($filtered_lines) !== count($lines)) {
+        file_put_contents($log_file, implode("\n", $filtered_lines) . "\n", LOCK_EX);
+    }
+}
+
+/**
+ * Deactivation hook to clean up scheduled events
+ */
+register_deactivation_hook(__FILE__, 'texthover_bracket_remover_deactivate');
+
+function texthover_bracket_remover_deactivate() {
+    wp_clear_scheduled_hook('texthover_clean_brackets_daily');
+}
