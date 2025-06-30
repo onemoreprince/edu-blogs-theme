@@ -401,8 +401,8 @@ add_action('init', 'init_wp_markdown_fixer');
 
 
 /**
- * TextHover Custom Field Square Bracket Remover - DEBUG VERSION
- * Removes square brackets from 'textHover' custom fields across all posts
+ * TextHover Custom Field Square Bracket Remover - FIXED VERSION
+ * Removes square brackets from 'texthover' ACF custom fields across all posts
  * Runs daily via WordPress cron with logging and admin interface
  */
 
@@ -453,7 +453,7 @@ function texthover_admin_page() {
     // Handle debug run
     if (isset($_POST['debug_run']) && wp_verify_nonce($_POST['texthover_nonce'], 'texthover_debug_run')) {
         $debug_info = texthover_debug_posts();
-        echo '<div class="notice notice-info"><p><strong>Debug Information:</strong><br>' . nl2br(esc_html($debug_info)) . '</p></div>';
+        echo '<div class="notice notice-info" style="white-space: pre-wrap;"><p><strong>Debug Information:</strong><br>' . esc_html($debug_info) . '</p></div>';
     }
     
     // Handle log clearing
@@ -556,18 +556,19 @@ function texthover_admin_page() {
  * Debug function to show what posts have brackets
  */
 function texthover_debug_posts() {
-    $posts_with_brackets = get_posts_with_textHover_brackets(10); // Get first 10 for debugging
+    $posts_with_brackets = get_posts_with_textHover_brackets(5); // Get first 5 for debugging
     $debug_info = "Found " . count($posts_with_brackets) . " posts with brackets:\n\n";
     
     foreach ($posts_with_brackets as $post_id) {
         $post_title = get_the_title($post_id);
-        $textHover_content = get_post_meta($post_id, 'textHover', true);
+        $textHover_content = get_post_meta($post_id, 'texthover', true); // FIXED: lowercase 'texthover'
         
         $debug_info .= "Post ID: {$post_id}\n";
         $debug_info .= "Post Title: {$post_title}\n";
-        $debug_info .= "TextHover Content (first 200 chars): " . substr($textHover_content, 0, 200) . "...\n";
+        $debug_info .= "TextHover Content (first 300 chars): " . substr($textHover_content, 0, 300) . "...\n";
         $debug_info .= "Has brackets: " . (preg_match('/\[[^\]]+\]/', $textHover_content) ? 'YES' : 'NO') . "\n";
         $debug_info .= "Content length: " . strlen($textHover_content) . " characters\n";
+        $debug_info .= "Content type: " . gettype($textHover_content) . "\n";
         $debug_info .= "---\n\n";
     }
     
@@ -627,7 +628,7 @@ function texthover_display_log_content($log_file) {
 }
 
 /**
- * Main function to clean brackets in batches - UPDATED WITH DEBUG INFO
+ * Main function to clean brackets in batches
  */
 function texthover_clean_brackets_batch() {
     $batch_size = 50;
@@ -678,6 +679,7 @@ function texthover_clean_brackets_batch() {
 
 /**
  * Get posts that have textHover fields with square brackets
+ * FIXED: Changed meta_key from 'textHover' to 'texthover'
  */
 function get_posts_with_textHover_brackets($limit = 50) {
     global $wpdb;
@@ -685,7 +687,7 @@ function get_posts_with_textHover_brackets($limit = 50) {
     $query = $wpdb->prepare("
         SELECT DISTINCT post_id 
         FROM {$wpdb->postmeta} 
-        WHERE meta_key = 'textHover' 
+        WHERE meta_key = 'texthover' 
         AND meta_value LIKE %s 
         AND meta_value != ''
         LIMIT %d
@@ -697,15 +699,16 @@ function get_posts_with_textHover_brackets($limit = 50) {
 }
 
 /**
- * Process individual post's textHover field - UPDATED WITH DEBUG INFO
+ * Process individual post's textHover field
+ * FIXED: Changed meta_key from 'textHover' to 'texthover'
  */
 function process_post_textHover($post_id) {
-    $textHover_content = get_post_meta($post_id, 'textHover', true);
+    $textHover_content = get_post_meta($post_id, 'texthover', true); // FIXED: lowercase 'texthover'
     
     if (empty($textHover_content) || !is_string($textHover_content)) {
         return [
             'success' => false,
-            'message' => 'Empty or invalid content'
+            'message' => 'Empty or invalid content (type: ' . gettype($textHover_content) . ')'
         ];
     }
     
@@ -713,7 +716,7 @@ function process_post_textHover($post_id) {
     if (!preg_match('/\[[^\]]+\]/', $textHover_content)) {
         return [
             'success' => false,
-            'message' => 'No brackets found'
+            'message' => 'No brackets found in content'
         ];
     }
     
@@ -727,7 +730,7 @@ function process_post_textHover($post_id) {
     
     // Update the meta field if content changed
     if ($cleaned_content !== $original_content) {
-        $update_result = update_post_meta($post_id, 'textHover', $cleaned_content);
+        $update_result = update_post_meta($post_id, 'texthover', $cleaned_content); // FIXED: lowercase 'texthover'
         return [
             'success' => true,
             'message' => 'Updated successfully (' . ($update_result ? 'DB updated' : 'DB update failed') . ')'
@@ -741,7 +744,7 @@ function process_post_textHover($post_id) {
 }
 
 /**
- * Log changes made to textHover fields - UPDATED
+ * Log changes made to textHover fields
  */
 function log_texthover_changes($post_ids, $custom_message = '') {
     $log_file = WP_CONTENT_DIR . '/texthover-bracket-cleaner.log';
@@ -762,7 +765,7 @@ function log_texthover_changes($post_ids, $custom_message = '') {
     }
     
     // Append to log file
-    file_put_contents($log_file, $log_entry, FILE_APPEND | LOCK_EX);
+    file_put_contents($log_entry, $log_entry, FILE_APPEND | LOCK_EX);
     
     // Clean old log entries (keep only last year)
     cleanup_old_logs($log_file);
