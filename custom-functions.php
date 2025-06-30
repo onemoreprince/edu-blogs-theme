@@ -127,23 +127,46 @@ function syllabus_shortcode() {
 }
 add_shortcode('category_syllabus', 'syllabus_shortcode');
 
-// Modifying text hover feature
+// Modifying text hover feature - Case Insensitive Version
 function replace_text_hover($content) {
     global $post;
     $texthover = get_post_meta($post->ID, 'texthover', true);
+    
     if (!empty($texthover)) {
         $lines = explode("\n", $texthover);
         $texthover_array = array();
+        
         foreach ($lines as $line) {
-            list($phrase, $definition) = explode(' => ', $line);
-            $texthover_array[trim($phrase)] = trim($definition);
+            // Skip empty lines and lines without the delimiter
+            if (empty(trim($line)) || strpos($line, ' => ') === false) {
+                continue;
+            }
+            
+            list($phrase, $definition) = explode(' => ', $line, 2);
+            $phrase = trim($phrase);
+            $definition = trim($definition);
+            
+            if (!empty($phrase) && !empty($definition)) {
+                $texthover_array[$phrase] = $definition;
+            }
         }
+        
         foreach ($texthover_array as $phrase => $definition) {
-            // Check if the phrase exists in the content directly without regex
-            if (strpos($content, $phrase) !== false) {
-                // Use preg_quote only when matching to prevent any regex errors
+            // Case-insensitive check
+            if (stripos($content, $phrase) !== false) {
+                // Escape the phrase for regex and add case-insensitive flag
                 $escaped_phrase = preg_quote($phrase, '/');
-                $content = preg_replace('/' . $escaped_phrase . '(?![^<]*>)/', '<span class="text-hover" data-tooltip="'.$definition.'">'.$phrase.'</span>', $content, 1);
+                
+                // Use 'i' flag for case-insensitive matching
+                // Also preserve the original case in the replacement
+                $content = preg_replace_callback(
+                    '/\b' . $escaped_phrase . '\b(?![^<]*>)/i',
+                    function($matches) use ($definition) {
+                        return '<span class="text-hover" data-tooltip="' . esc_attr($definition) . '">' . $matches[0] . '</span>';
+                    },
+                    $content,
+                    1 // Only replace first occurrence
+                );
             }
         }
     }
@@ -151,8 +174,52 @@ function replace_text_hover($content) {
 }
 add_filter('the_content', 'replace_text_hover');
 
+// Hide image placeholder
+function hide_image_placeholder_paragraphs() {
+    // Only apply on single posts and pages
+    if (is_single() || is_page()) {
+        ?>
+        <style type="text/css">
+            .entry-content p:has-text("[Image:"),
+            .post-content p:has-text("[Image:"),
+            .content p:has-text("[Image:") {
+                display: none !important;
+            }
+            
+            /* Fallback for browsers that don't support :has-text() */
+            .entry-content p,
+            .post-content p,
+            .content p {
+                /* This will be handled by JavaScript below */
+            }
+        </style>
+        
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                // Find all paragraphs in common content containers
+                var contentSelectors = ['.entry-content', '.post-content', '.content', 'article', '.single-post'];
+                
+                contentSelectors.forEach(function(selector) {
+                    var container = document.querySelector(selector);
+                    if (container) {
+                        var paragraphs = container.querySelectorAll('p');
+                        paragraphs.forEach(function(p) {
+                            var text = p.textContent.trim();
+                            if (text.startsWith('[Image:')) {
+                                p.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+        <?php
+    }
+}
 
-// adding table of content
+// Hook the function to wp_head to add the CSS and JS
+add_action('wp_head', 'hide_image_placeholder_paragraphs');
+
 
 // Add ToC and modify content
 function add_table_of_contents($content) {
