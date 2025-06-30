@@ -401,7 +401,7 @@ add_action('init', 'init_wp_markdown_fixer');
 
 
 /**
- * TextHover Custom Field Square Bracket Remover
+ * TextHover Custom Field Square Bracket Remover - DEBUG VERSION
  * Removes square brackets from 'textHover' custom fields across all posts
  * Runs daily via WordPress cron with logging and admin interface
  */
@@ -442,8 +442,18 @@ function texthover_admin_page() {
     
     // Handle manual run
     if (isset($_POST['run_manual']) && wp_verify_nonce($_POST['texthover_nonce'], 'texthover_manual_run')) {
-        texthover_clean_brackets_batch();
-        echo '<div class="notice notice-success"><p>Manual cleaning completed! Check the log below for results.</p></div>';
+        $result = texthover_clean_brackets_batch();
+        if ($result['processed'] > 0) {
+            echo '<div class="notice notice-success"><p>Manual cleaning completed! Processed ' . $result['processed'] . ' posts. Check the log below for details.</p></div>';
+        } else {
+            echo '<div class="notice notice-info"><p>Manual cleaning completed but no posts were processed. Debug info: ' . $result['debug'] . '</p></div>';
+        }
+    }
+    
+    // Handle debug run
+    if (isset($_POST['debug_run']) && wp_verify_nonce($_POST['texthover_nonce'], 'texthover_debug_run')) {
+        $debug_info = texthover_debug_posts();
+        echo '<div class="notice notice-info"><p><strong>Debug Information:</strong><br>' . nl2br(esc_html($debug_info)) . '</p></div>';
     }
     
     // Handle log clearing
@@ -493,6 +503,12 @@ function texthover_admin_page() {
                 <p class="description">Process up to 50 posts immediately</p>
             </form>
             
+            <form method="post" style="display: inline-block; margin-right: 10px;">
+                <?php wp_nonce_field('texthover_debug_run', 'texthover_nonce'); ?>
+                <input type="submit" name="debug_run" class="button button-secondary" value="Debug Posts" />
+                <p class="description">Show debug information about posts with brackets</p>
+            </form>
+            
             <form method="post" style="display: inline-block;">
                 <?php wp_nonce_field('texthover_clear_log', 'texthover_nonce'); ?>
                 <input type="submit" name="clear_log" class="button button-secondary" value="Clear Log File" onclick="return confirm('Are you sure you want to clear the log file?');" />
@@ -534,6 +550,28 @@ function texthover_admin_page() {
     }
     </style>
     <?php
+}
+
+/**
+ * Debug function to show what posts have brackets
+ */
+function texthover_debug_posts() {
+    $posts_with_brackets = get_posts_with_textHover_brackets(10); // Get first 10 for debugging
+    $debug_info = "Found " . count($posts_with_brackets) . " posts with brackets:\n\n";
+    
+    foreach ($posts_with_brackets as $post_id) {
+        $post_title = get_the_title($post_id);
+        $textHover_content = get_post_meta($post_id, 'textHover', true);
+        
+        $debug_info .= "Post ID: {$post_id}\n";
+        $debug_info .= "Post Title: {$post_title}\n";
+        $debug_info .= "TextHover Content (first 200 chars): " . substr($textHover_content, 0, 200) . "...\n";
+        $debug_info .= "Has brackets: " . (preg_match('/\[[^\]]+\]/', $textHover_content) ? 'YES' : 'NO') . "\n";
+        $debug_info .= "Content length: " . strlen($textHover_content) . " characters\n";
+        $debug_info .= "---\n\n";
+    }
+    
+    return $debug_info;
 }
 
 /**
@@ -589,23 +627,31 @@ function texthover_display_log_content($log_file) {
 }
 
 /**
- * Main function to clean brackets in batches
+ * Main function to clean brackets in batches - UPDATED WITH DEBUG INFO
  */
 function texthover_clean_brackets_batch() {
-    $batch_size = 50; // Process 50 posts at a time to avoid memory issues
+    $batch_size = 50;
     $processed_posts = [];
+    $debug_info = [];
     
     // Get all posts with textHover meta field containing brackets
     $posts_with_brackets = get_posts_with_textHover_brackets($batch_size);
     
+    $debug_info[] = "Found " . count($posts_with_brackets) . " posts with brackets";
+    
     if (empty($posts_with_brackets)) {
-        return; // Nothing to process
+        return [
+            'processed' => 0,
+            'debug' => 'No posts found with brackets'
+        ];
     }
     
     foreach ($posts_with_brackets as $post_id) {
-        if (process_post_textHover($post_id)) {
+        $result = process_post_textHover($post_id);
+        if ($result['success']) {
             $processed_posts[] = $post_id;
         }
+        $debug_info[] = "Post {$post_id}: " . $result['message'];
         
         // Small delay to reduce server strain
         usleep(10000); // 0.01 second delay
@@ -614,12 +660,20 @@ function texthover_clean_brackets_batch() {
     // Log the changes if any posts were processed
     if (!empty($processed_posts)) {
         log_texthover_changes($processed_posts);
+    } else {
+        // Log that we tried but found nothing to process
+        log_texthover_changes([], "No posts processed - " . implode("; ", $debug_info));
     }
     
     // If we processed a full batch, schedule another run in 1 hour
     if (count($posts_with_brackets) == $batch_size) {
         wp_schedule_single_event(time() + 3600, 'texthover_clean_brackets_daily');
     }
+    
+    return [
+        'processed' => count($processed_posts),
+        'debug' => implode(" | ", $debug_info)
+    ];
 }
 
 /**
@@ -633,6 +687,7 @@ function get_posts_with_textHover_brackets($limit = 50) {
         FROM {$wpdb->postmeta} 
         WHERE meta_key = 'textHover' 
         AND meta_value LIKE %s 
+        AND meta_value != ''
         LIMIT %d
     ", '%[%]%', $limit);
     
@@ -642,19 +697,27 @@ function get_posts_with_textHover_brackets($limit = 50) {
 }
 
 /**
- * Process individual post's textHover field
+ * Process individual post's textHover field - UPDATED WITH DEBUG INFO
  */
 function process_post_textHover($post_id) {
     $textHover_content = get_post_meta($post_id, 'textHover', true);
     
     if (empty($textHover_content) || !is_string($textHover_content)) {
-        return false;
+        return [
+            'success' => false,
+            'message' => 'Empty or invalid content'
+        ];
     }
     
     // Check if content has square brackets pattern
     if (!preg_match('/\[[^\]]+\]/', $textHover_content)) {
-        return false;
+        return [
+            'success' => false,
+            'message' => 'No brackets found'
+        ];
     }
+    
+    $original_content = $textHover_content;
     
     // Remove square brackets from the beginning of lines
     $cleaned_content = preg_replace('/^\[([^\]]+)\]/m', '$1', $textHover_content);
@@ -663,28 +726,40 @@ function process_post_textHover($post_id) {
     $cleaned_content = preg_replace('/\[([^\]]+)\]\s*=>/m', '$1 =>', $cleaned_content);
     
     // Update the meta field if content changed
-    if ($cleaned_content !== $textHover_content) {
-        update_post_meta($post_id, 'textHover', $cleaned_content);
-        return true;
+    if ($cleaned_content !== $original_content) {
+        $update_result = update_post_meta($post_id, 'textHover', $cleaned_content);
+        return [
+            'success' => true,
+            'message' => 'Updated successfully (' . ($update_result ? 'DB updated' : 'DB update failed') . ')'
+        ];
     }
     
-    return false;
+    return [
+        'success' => false,
+        'message' => 'No changes needed after processing'
+    ];
 }
 
 /**
- * Log changes made to textHover fields
+ * Log changes made to textHover fields - UPDATED
  */
-function log_texthover_changes($post_ids) {
+function log_texthover_changes($post_ids, $custom_message = '') {
     $log_file = WP_CONTENT_DIR . '/texthover-bracket-cleaner.log';
     $timestamp = current_time('Y-m-d H:i:s');
-    $post_ids_string = implode(', ', $post_ids);
     
-    $log_entry = sprintf(
-        "[%s] Processed %d posts - Post IDs: %s\n",
-        $timestamp,
-        count($post_ids),
-        $post_ids_string
-    );
+    if (!empty($custom_message)) {
+        $log_entry = sprintf("[%s] %s\n", $timestamp, $custom_message);
+    } elseif (!empty($post_ids)) {
+        $post_ids_string = implode(', ', $post_ids);
+        $log_entry = sprintf(
+            "[%s] Processed %d posts - Post IDs: %s\n",
+            $timestamp,
+            count($post_ids),
+            $post_ids_string
+        );
+    } else {
+        $log_entry = sprintf("[%s] No posts processed\n", $timestamp);
+    }
     
     // Append to log file
     file_put_contents($log_file, $log_entry, FILE_APPEND | LOCK_EX);
