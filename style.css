@@ -7,7 +7,7 @@ Description: A custom theme for bunch of educational blog I manage. It contains 
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Version: 3.2.3
+Version: 3.2.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: education-blogs
@@ -44,6 +44,38 @@ li:has(.blog-article-archive-card) img {
     align-items: flex-start !important;
 }
 
+/** Ajax Search Lite **/
+#ajaxsearchlite1 .probox, div.asl_w .probox {
+border:var(--wp--preset--color--accent) 2px solid;
+}
+.asl_res_url{
+ font-family:Outfit!important;
+}
+#ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input {
+ font-family:Outfit!important;
+}
+div.asl_w .probox .promagnifier .innericon svg {
+    fill: var(--wp--preset--color--accent);
+}
+
+#ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input{
+    font-size: 16px;
+}
+div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a {
+    font-weight: bold;
+    color: var(--wp--preset--color--accent);
+    font-size: 16px;
+}
+div.asl_r .results .item .asl_content .asl_desc {
+    font-size: 14px;
+}
+
+div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a:hover{
+    font-weight: bold;
+    color: #251954;
+    font-size: 16px;
+}
+/** Ajax Search Lite **/
 
 /**Rate my post feedback**/
 
