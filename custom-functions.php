@@ -146,6 +146,9 @@ function replace_text_hover($content) {
             $phrase = trim($phrase);
             $definition = trim($definition);
             
+            // Remove square brackets from phrase
+            $phrase = trim($phrase, '[]');
+            
             if (!empty($phrase) && !empty($definition)) {
                 $texthover_array[$phrase] = $definition;
             }
