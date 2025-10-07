@@ -83,6 +83,68 @@ function wpbeginner_get_wordcount($post_id) {
       return $wpbeginner_wordcount;
 }
 
+//extracts external links, add as a numbered list at end of post
+
+function add_references_to_content($content) {
+    // Get the current site URL
+    $site_url = get_site_url();
+    $site_domain = parse_url($site_url, PHP_URL_HOST);
+    
+    // Extract all links from the content
+    preg_match_all('/<a\s+(?:[^>]*?\s+)?href=(["\'])(.*?)\1/i', $content, $matches);
+    
+    if (empty($matches[2])) {
+        return $content; // No links found
+    }
+    
+    $external_links = array();
+    
+    // Process each link
+    foreach ($matches[2] as $url) {
+        // Skip empty URLs, anchors, and mailto links
+        if (empty($url) || $url[0] === '#' || strpos($url, 'mailto:') === 0) {
+            continue;
+        }
+        
+        // Parse the URL
+        $parsed_url = parse_url($url);
+        
+        // Skip relative URLs (internal links)
+        if (!isset($parsed_url['host'])) {
+            continue;
+        }
+        
+        // Skip if it's the same domain
+        if ($parsed_url['host'] === $site_domain || 
+            $parsed_url['host'] === 'www.' . $site_domain || 
+            'www.' . $parsed_url['host'] === $site_domain) {
+            continue;
+        }
+        
+        // Add to external links array (this automatically handles duplicates)
+        $external_links[$url] = $url;
+    }
+    
+    // If we have external links, add the references section
+    if (!empty($external_links)) {
+        $references = '<h5>References</h5><ol>';
+        
+        foreach ($external_links as $url) {
+            $references .= '<li><a href="' . esc_url($url) . '" target="_blank" rel="noopener noreferrer">' . esc_html($url) . '</a></li>';
+        }
+        
+        $references .= '</ol>';
+        
+        // Append references to content
+        $content .= $references;
+    }
+    
+    return $content;
+}
+
+// Hook into the content filter
+add_filter('the_content', 'add_references_to_content');
+
 // Current Year Shortcode
 function current_year_shortcode() {
     return date('Y');
