@@ -938,3 +938,52 @@ register_deactivation_hook(__FILE__, 'texthover_bracket_remover_deactivate');
 function texthover_bracket_remover_deactivate() {
     wp_clear_scheduled_hook('texthover_clean_brackets_daily');
 }
+
+
+/***
+ * 
+ * show related results on 404 page
+ * 
+ */
+
+add_shortcode('related_results_from_url', function() {
+    $request_uri = $_SERVER['REQUEST_URI'];
+    $path = trim(parse_url($request_uri, PHP_URL_PATH), '/');
+    $segments = explode('/', $path);
+
+    $category_slug = '';
+    $search_term = '';
+
+    if (count($segments) > 1) {
+        $category_slug = sanitize_title($segments[0]);
+        $search_term = str_replace('-', ' ', $segments[count($segments) - 1]);
+    } elseif (count($segments) === 1) {
+        $search_term = str_replace('-', ' ', $segments[0]);
+    }
+
+    // Query for related posts
+    $args = ['s' => $search_term, 'posts_per_page' => 10];
+    if ($category_slug && term_exists($category_slug, 'category')) {
+        $args['category_name'] = $category_slug;
+    }
+
+    $query = new WP_Query($args);
+    ob_start();
+
+    echo '<div class="wp-block-group">';
+    echo '<h2>Related results for “' . esc_html($search_term) . '”</h2>';
+
+    if ($query->have_posts()) {
+        echo '<ul>';
+        while ($query->have_posts()) : $query->the_post();
+            echo '<li><a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></li>';
+        endwhile;
+        echo '</ul>';
+    } else {
+        echo '<p>No related results found.</p>';
+    }
+
+    echo '</div>';
+    wp_reset_postdata();
+    return ob_get_clean();
+});
