@@ -961,29 +961,29 @@ add_shortcode('related_results_from_url', function() {
         $search_term = str_replace('-', ' ', $segments[0]);
     }
 
-    // Query for related posts
-    $args = ['s' => $search_term, 'posts_per_page' => 10];
+    ob_start();
+
+    echo '<main class="wp-block-group alignfull">';
+    echo '<h2 class="wp-block-heading has-x-large-font-size" style="text-align:center;">Related results for “' . esc_html($search_term) . '”</h2>';
+
+    // Build a WP_Query context so that the Query block will pick it up
+    global $wp_query;
+    $args = [
+        's' => $search_term,
+        'posts_per_page' => 10,
+        'post_type' => 'post',
+    ];
     if ($category_slug && term_exists($category_slug, 'category')) {
         $args['category_name'] = $category_slug;
     }
 
-    $query = new WP_Query($args);
-    ob_start();
+    $wp_query = new WP_Query($args);
 
-    echo '<div class="wp-block-group">';
-    echo '<h2>Related results for “' . esc_html($search_term) . '”</h2>';
+    // Load the same post grid template part used in search.html
+    echo do_blocks('<!-- wp:template-part {"slug":"post-grid-default"} /-->');
 
-    if ($query->have_posts()) {
-        echo '<ul>';
-        while ($query->have_posts()) : $query->the_post();
-            echo '<li><a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></li>';
-        endwhile;
-        echo '</ul>';
-    } else {
-        echo '<p>No related results found.</p>';
-    }
-
-    echo '</div>';
     wp_reset_postdata();
+    echo '</main>';
+
     return ob_get_clean();
 });
