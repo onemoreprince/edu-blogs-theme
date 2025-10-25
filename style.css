@@ -46,7 +46,7 @@ li:has(.blog-article-archive-card) img {
 
 /** Ajax Search Lite **/
 #ajaxsearchlite1 .probox, div.asl_w .probox {
-border:var(--wp--preset--color--accent) 2px solid;
+border:var(--wp--preset--color--accent) 2px solid !important;
 }
 .asl_res_url{
  font-family:Outfit!important;
@@ -55,25 +55,25 @@ border:var(--wp--preset--color--accent) 2px solid;
  font-family:Outfit!important;
 }
 div.asl_w .probox .promagnifier .innericon svg {
-    fill: var(--wp--preset--color--accent);
+    fill: var(--wp--preset--color--accent) !important;
 }
 
 #ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input{
-    font-size: 16px;
+    font-size: 16px !important;
 }
 div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a {
     font-weight: bold;
-    color: var(--wp--preset--color--accent);
-    font-size: 16px;
+    color: var(--wp--preset--color--accent)!important;
+    font-size: 16px !important;
 }
 div.asl_r .results .item .asl_content .asl_desc {
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a:hover{
-    font-weight: bold;
-    color: #251954;
-    font-size: 16px;
+    font-weight: bold !important;
+    color: #251954 !important;
+    font-size: 16px !important;
 }
 /** Ajax Search Lite **/
 
