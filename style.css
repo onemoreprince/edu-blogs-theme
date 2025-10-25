@@ -7,7 +7,7 @@ Description: A custom theme for bunch of educational blog I manage. It contains 
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Version: 3.6.1 
+Version: 3.6.2 
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: education-blogs
@@ -224,6 +224,10 @@ button.rmp-rating-widget__submit-btn.rmp-btn.js-submit-rating-btn.rmp-rating-wid
     color: var(--wp--preset--color--contrast-2);
     text-decoration: none;
     font-size: 1rem;
+}
+
+div#footer-sites {
+background-color: color-mix(in srgb, var(--wp--preset--color--accent) 10%, transparent);
 }
 
 .pmb-print-this-page.wp-block-button a {
