@@ -371,50 +371,88 @@ function add_table_of_contents($content) {
         .copy-link:hover {
             opacity: 1;
         }
+            /* Toast notification styles */
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--wp--preset--color--accent);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s;
+            pointer-events: none;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
     </style>';
     
     // Add JavaScript for clipboard functionality using native APIs
+// Add JavaScript for clipboard functionality with toast notification
     $toc .= "<script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.copy-link').forEach(button => {
                 button.addEventListener('click', function(e) {
+                    e.preventDefault();
                     const link = this.getAttribute('data-link');
                     
                     // Create a temporary textarea to copy the text
                     const textarea = document.createElement('textarea');
                     textarea.value = link;
-                    textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
                     document.body.appendChild(textarea);
                     textarea.select();
                     
                     try {
-                        // Execute copy command
                         document.execCommand('copy');
-                        
-                        // Show notification
-                        if ('Notification' in window) {
-                            if (Notification.permission === 'granted') {
-                                new Notification('Link Copied!', {
-                                    body: link
-                                });
-                            } else if (Notification.permission !== 'denied') {
-                                Notification.requestPermission().then(function(permission) {
-                                    if (permission === 'granted') {
-                                        new Notification('Link Copied!', {
-                                            body: link
-                                        });
-                                    }
-                                });
-                            }
-                        }
+                        showToast('Link Copied ✅');
                     } catch (err) {
                         console.error('Failed to copy link:', err);
+                        showToast('Failed to copy link ❌');
                     }
                     
-                    // Clean up
                     document.body.removeChild(textarea);
                 });
             });
+            
+            function showToast(message) {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) existingToast.remove();
+                
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    if (toast.parentNode) toast.remove();
+                }, 3000);
+            }
         });
     </script>";
     
