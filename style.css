@@ -7,7 +7,7 @@ Description: A custom theme for bunch of educational blog I manage. It contains 
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Version: 3.7 
+Version: 3.8 
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: education-blogs
@@ -16,6 +16,10 @@ Tags:
 
 :root :where(.wp-block-columns .wp-element-button, .wp-block-columns .wp-block-button__link) {
     color: var(--wp--preset--color--base);
+}
+
+@view-transition {
+    navigation: auto;
 }
 
 .blog-article-archive-card {
