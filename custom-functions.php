@@ -24,7 +24,8 @@ function load_custom_modules() {
         'content-enhancements.php', // ToC, References, Text Hover, Markdown
         'admin-features.php',       // Word Count, TextHover Cleaner
         'shortcodes.php',           // All shortcodes
-        'welcome-email.php',           // All shortcodes
+        'welcome-email.php',           // Welcome email & magic link
+        'ad-free-setting.php',           // Setting page
 
     );
 

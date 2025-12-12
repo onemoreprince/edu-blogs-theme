@@ -42,8 +42,7 @@ function send_welcome_email_with_magic_link($user_id) {
     $message  = 'Hi ' . $user->display_name . ',<br><br>';
     $message .= 'Your account has been successfully created.<br><br>';
     $message .= '<strong>Your Login Details:</strong><br>';
-    $message .= 'Username: ' . $user->user_login . '<br>';
-    $message .= 'Email: ' . $user->user_email . '<br><br>';
+    $message .= 'Username/Email: ' . $user->user_login . '<br>';
     
     $message .= '<strong>Quick Access:</strong><br>';
     $message .= '<a href="' . esc_url($login_url) . '">Click here to Auto-Login to your account</a><br><br>';
@@ -51,10 +50,10 @@ function send_welcome_email_with_magic_link($user_id) {
     $message .= '<em>(Note: This link is valid for 24 hours and can only be used once.)</em><br><br>';
     
     $message .= '<strong>Getting Started Help:</strong><br>';
-    $message .= '1. Once logged in, please go to your profile to set a permanent password.<br>';
+    $message .= '1. Once logged in, please go to your profile to set an password fo reasy login or you can also loigin using magic link by simply enterimng your same email on the login page.<br>';
     $message .= '2. You can access your dashboard from the top menu.<br>';
     $message .= '3. If you have questions, reply to this email.<br><br>';
-    $message .= 'Welcome aboard!';
+    $message .= 'Enjoy Ad-Free Expereince!';
 
     // Set headers for HTML email
     $headers = array('Content-Type: text/html; charset=UTF-8');
@@ -90,7 +89,7 @@ function handle_magic_login() {
             delete_user_meta($user_id, 'magic_login_expires');
             
             // 3. Redirect to a specific page (e.g., Dashboard or Home)
-            wp_redirect(admin_url()); // Change admin_url() to home_url('/my-account') if preferred
+            wp_redirect(home_url()); // Change admin_url() to home_url('/my-account') if preferred
             exit;
             
         } else {
