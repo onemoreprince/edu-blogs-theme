@@ -120,22 +120,22 @@ function ad_free_settings_page_html() {
 }
 
 
-// Here is how to retrieve the status (returns '1' if checked, false/empty if not)
-$is_ad_free_active = get_option('ad_free_enabled');
-$payment_url = get_option('ad_free_paypal_url');
+// // Here is how to retrieve the status (returns '1' if checked, false/empty if not)
+// $is_ad_free_active = get_option('ad_free_enabled');
+// $payment_url = get_option('ad_free_paypal_url');
 
-// We double check that the URL exists before trusting the "enabled" switch
-if ( $is_ad_free_active && !empty($payment_url) ) {
-    // RUN YOUR LOGIC HERE:
-    // e.g., Show the "Remove Ads" button
-    // e.g., Hide the ad blocks
-}
+// // We double check that the URL exists before trusting the "enabled" switch
+// if ( $is_ad_free_active && !empty($payment_url) ) {
+//     // RUN YOUR LOGIC HERE:
+//     // e.g., Show the "Remove Ads" button
+//     // e.g., Hide the ad blocks
+// }
 
-// Use this variable in your href="" attribute
-$my_paypal_link = get_option('ad_free_paypal_url');
+// // Use this variable in your href="" attribute
+// $my_paypal_link = get_option('ad_free_paypal_url');
 
-// Example usage:
-// echo '<a href="' . esc_url($my_paypal_link) . '">Go Ad-Free</a>';
+// // Example usage:
+// // echo '<a href="' . esc_url($my_paypal_link) . '">Go Ad-Free</a>';
 
 ?>
 
