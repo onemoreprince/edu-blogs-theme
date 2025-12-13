@@ -25,8 +25,6 @@ function load_custom_modules() {
         'admin-features.php',       // Word Count, TextHover Cleaner
         'shortcodes.php',           // All shortcodes
         'welcome-email.php',           // Welcome email & magic link
-        'ad-free-setting.php',           // Setting page
-
     );
 
     foreach ($modules as $module) {
