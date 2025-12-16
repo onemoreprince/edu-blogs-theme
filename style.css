@@ -263,7 +263,7 @@ div.eb-nav-contents span.eb-menu-indicator {
 }
 
 ul.wp-block-navigation__submenu-container.wp-block-navigation-submenu {
-    z-index: 999 !important;
+    z-index: 1000 !important;
 }
 
 
@@ -298,7 +298,7 @@ li.wp-block-navigation-item {
 }
 
 div.wp-block-navigation__responsive-container {
-    z-index: 999 !important;
+    z-index: 1000 !important;
 }
 
 a.wp-block-navigation-item__content {
