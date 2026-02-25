@@ -109,9 +109,22 @@ function get_toc_styles() {
             list-style: none;
             padding-left: 0;
             margin: 0;
+            counter-reset: toc-h2;
+        }
+        .post-toc .toc-h2 {
+            counter-increment: toc-h2;
+            counter-reset: toc-h3;
+        }
+        .post-toc .toc-h2 a::before {
+            content: counter(toc-h2) ". ";
+            font-weight: 600;
         }
         .post-toc .toc-h3 {
             padding-left: 20px;
+            counter-increment: toc-h3;
+        }
+        .post-toc .toc-h3 a::before {
+            content: counter(toc-h3, lower-alpha) ". ";
         }
         .post-toc a {
             color: #333;

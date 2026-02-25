@@ -11,6 +11,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Default AdSense code (used when no custom value is saved)
+define('EDU_BLOG_DEFAULT_ADSENSE', '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7772226184406759" crossorigin="anonymous"></script>');
+
 /**
  * Check if current user should see ads
  * 
@@ -45,10 +48,9 @@ function should_show_ads() {
  */
 function add_frontend_scripts() {
     ?>
-    <?php if (should_show_ads()) : ?>
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7772226184406759" crossorigin="anonymous"></script>
-    <?php endif; ?>
+    <?php if (should_show_ads()) :
+        echo get_option('edu_blog_adsense_code', EDU_BLOG_DEFAULT_ADSENSE);
+    endif; ?>
     
     <!-- Instant Page - Preload on hover -->
     <script src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
@@ -100,3 +102,59 @@ function add_frontend_scripts() {
     <?php
 }
 add_action('wp_head', 'add_frontend_scripts');
+
+/*--------------------------------------------------------------
+# Theme Ads Settings Page
+--------------------------------------------------------------*/
+
+function edu_blog_ads_settings_page() {
+    add_options_page(
+        'Theme Ads Settings',
+        'Theme Ads',
+        'manage_options',
+        'edu-blog-ads',
+        'edu_blog_ads_settings_page_html'
+    );
+}
+add_action('admin_menu', 'edu_blog_ads_settings_page');
+
+function edu_blog_ads_settings_init() {
+    register_setting('edu_blog_ads', 'edu_blog_adsense_code', array(
+        'type'              => 'string',
+        'default'           => EDU_BLOG_DEFAULT_ADSENSE,
+        'sanitize_callback' => 'edu_blog_sanitize_adsense_code',
+    ));
+}
+add_action('admin_init', 'edu_blog_ads_settings_init');
+
+function edu_blog_sanitize_adsense_code($input) {
+    if (!current_user_can('unfiltered_html')) {
+        return get_option('edu_blog_adsense_code', EDU_BLOG_DEFAULT_ADSENSE);
+    }
+    return $input;
+}
+
+function edu_blog_ads_settings_page_html() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    $adsense_code = get_option('edu_blog_adsense_code', EDU_BLOG_DEFAULT_ADSENSE);
+    ?>
+    <div class="wrap">
+        <h1>Theme Ads Settings</h1>
+        <form action="options.php" method="post">
+            <?php settings_fields('edu_blog_ads'); ?>
+            <table class="form-table">
+                <tr>
+                    <th scope="row"><label for="edu_blog_adsense_code">AdSense Code</label></th>
+                    <td>
+                        <textarea name="edu_blog_adsense_code" id="edu_blog_adsense_code" rows="5" cols="80" class="large-text code"><?php echo esc_textarea($adsense_code); ?></textarea>
+                        <p class="description">Paste your Google AdSense script tag here. This is output in the &lt;head&gt; for non-admin users.</p>
+                    </td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
