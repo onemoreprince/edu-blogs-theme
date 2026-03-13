@@ -7,86 +7,42 @@ Description: A custom theme for bunch of educational blog I manage. It contains 
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Version: 4.2.0 
+Version: 4.3.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: education-blogs
-Tags: 
+Tags:
 */
 
-:root :where(.wp-block-columns .wp-element-button, .wp-block-columns .wp-block-button__link) {
-    color: var(--wp--preset--color--base);
-}
+/*--------------------------------------------------------------
+# View Transitions
+--------------------------------------------------------------*/
 
 @view-transition {
     navigation: auto;
 }
 
-.blog-article-archive-card {
-    box-shadow: 0px 10px 60px 0px rgba(103, 151, 255, 0.24) !important;
-    border-radius: 0 0 8px 8px !important;
-}
-
-.edu-post-content {
-    box-shadow: 0px 10px 60px 0px rgba(103, 151, 255, 0.24) !important;
-    border-radius: 0 0 8px 8px !important;
-    padding-top: 20px;
-}
-
-.textwidget {
-    border-radius: 8px;
-    font-size: 16px;
-    box-shadow: 0px 10px 60px 0px rgba(103, 151, 255, 0.24) !important;
-    border-radius: 0 0 8px 8px !important;
-}
-
-li:has(.blog-article-archive-card) img {
-    border-radius: 8px 0px 0 0 !important;
-}
-
-.wp-block-columns {
-    align-items: flex-start !important;
-}
-
-/** Ajax Search Lite **/
-#ajaxsearchlite1 .probox, div.asl_w .probox {
-border:var(--wp--preset--color--accent) 2px solid !important;
-}
-.asl_res_url{
- font-family:Outfit!important;
-}
-#ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input {
- font-family:Outfit!important;
-}
-div.asl_w .probox .promagnifier .innericon svg {
-    fill: var(--wp--preset--color--accent) !important;
-}
-
-#ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input{
-    font-size: 16px !important;
-}
-div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a {
-    font-weight: bold;
-    color: var(--wp--preset--color--accent)!important;
-    font-size: 16px !important;
-}
-div.asl_r .results .item .asl_content .asl_desc {
-    font-size: 14px !important;
-}
-
-div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a:hover{
-    font-weight: bold !important;
-    color: #251954 !important;
-    font-size: 16px !important;
-}
-/** Ajax Search Lite **/
-
-/**Rate my post feedback**/
+/*--------------------------------------------------------------
+# Base & Global Styles
+--------------------------------------------------------------*/
 
 :root :where(.wp-block-columns .wp-element-button, .wp-block-columns .wp-block-button__link) {
     color: var(--wp--preset--color--base);
 }
 
+.wp-block-columns {
+    align-items: flex-start !important;
+}
+
+:where(.wp-site-blocks *:focus) {
+    outline-width: 2px;
+    outline-style: solid;
+}
+
+/*--------------------------------------------------------------
+# Card & Shadow Styles
+--------------------------------------------------------------*/
+
 .blog-article-archive-card {
     box-shadow: 0px 10px 60px 0px rgba(103, 151, 255, 0.24) !important;
     border-radius: 0 0 8px 8px !important;
@@ -109,64 +65,46 @@ li:has(.blog-article-archive-card) img {
     border-radius: 8px 0px 0 0 !important;
 }
 
-.wp-block-columns {
-    align-items: flex-start !important;
+/*--------------------------------------------------------------
+# Post Content
+--------------------------------------------------------------*/
+
+.wp-block-post-content-is-layout-flow {
+    font-size: 18px !important;
 }
 
-
-/**Rate my post feedback**/
-.rmp-widgets-container {
-    border: 2px solid;
-    border-color: var(--wp--preset--color--accent);
-    border-radius: 8px;
-    padding-top: 20px;
-    padding-bottom: 30px;
-    margin-top: 30px !important;
+div.edu-post-content h3,
+div.edu-post-content h4,
+div.edu-post-content h5,
+div.edu-post-content h6 {
+    color: var(--wp--preset--color--contrast-2);
 }
 
-p.rmp-heading.rmp-heading--title {
-    font-weight: bold;
-    color: var(--wp--preset--color--accent);
-}
-
-button.rmp-feedback-widget__btn.rmp-btn.rmp-btn--large.js-rmp-feedback-button {
-    background: var(--wp--preset--color--accent);
-    font: var(--wp--preset--font-family--outfit);
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-textarea#feedback-text {
-    font-family: unset;
-    width: 100%;
-    font-size: 1.05rem;
-}
-
-p.rmp-heading.rmp-heading--title {
-    font-size: unset;
-}
-
-p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
-    font-weight: bold;
-}
-
-button.rmp-rating-widget__submit-btn.rmp-btn.js-submit-rating-btn.rmp-rating-widget__submit-btn--visible {
+.pmb-print-this-page.wp-block-button a {
+    color: var(--wp--preset--color--white);
     text-decoration: none;
-    background-color: var(--wp--preset--color--accent);
-    border-radius: .33rem;
-    border-color: var(--wp--preset--color--contrast);
-    border-width: 0;
-    color: var(--wp--preset--color--base);
-    font-family: inherit;
-    font-style: normal;
-    font-weight: 500;
-    line-height: inherit;
-    padding-top: 0.6rem;
-    padding-right: 1rem;
-    padding-bottom: 0.6rem;
-    padding-left: 1rem;
 }
 
+/*--------------------------------------------------------------
+# Syllabus Sidebar
+--------------------------------------------------------------*/
+
+.syllabus-sidebar h4 {
+    border-bottom: 1px dotted;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.syllabus-sidebar ol {
+    list-style-type: lower-alpha;
+    list-style-position: outside;
+    padding-left: 15px;
+    padding-bottom: 6px;
+}
+
+/*--------------------------------------------------------------
+# Text Hover Tooltips
+--------------------------------------------------------------*/
 
 .text-hover {
     border-bottom: 1px dotted #000;
@@ -200,6 +138,9 @@ button.rmp-rating-widget__submit-btn.rmp-btn.js-submit-rating-btn.rmp-rating-wid
     }
 }
 
+/*--------------------------------------------------------------
+# Footer Sites Section
+--------------------------------------------------------------*/
 
 #footer-sites {
     padding: 30px 5vw;
@@ -211,6 +152,10 @@ button.rmp-rating-widget__submit-btn.rmp-btn.js-submit-rating-btn.rmp-rating-wid
 
 #footer-sites p {
     text-align: center;
+}
+
+div#footer-sites {
+    background-color: color-mix(in srgb, var(--wp--preset--color--accent) 10%, transparent);
 }
 
 .footer-columns {
@@ -230,34 +175,100 @@ button.rmp-rating-widget__submit-btn.rmp-btn.js-submit-rating-btn.rmp-rating-wid
     font-size: 1rem;
 }
 
-div#footer-sites {
-background-color: color-mix(in srgb, var(--wp--preset--color--accent) 10%, transparent);
+/*--------------------------------------------------------------
+# Plugin: Ajax Search Lite
+--------------------------------------------------------------*/
+
+#ajaxsearchlite1 .probox, div.asl_w .probox {
+    border: var(--wp--preset--color--accent) 2px solid !important;
 }
 
-.pmb-print-this-page.wp-block-button a {
-    color: var(--wp--preset--color--white);
+.asl_res_url {
+    font-family: Outfit !important;
+}
+
+#ajaxsearchlite1 .probox .proinput input, div.asl_w .probox .proinput input {
+    font-family: Outfit !important;
+    font-size: 16px !important;
+}
+
+div.asl_w .probox .promagnifier .innericon svg {
+    fill: var(--wp--preset--color--accent) !important;
+}
+
+div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a {
+    font-weight: bold;
+    color: var(--wp--preset--color--accent) !important;
+    font-size: 16px !important;
+}
+
+div.asl_r .results .item .asl_content .asl_desc {
+    font-size: 14px !important;
+}
+
+div.asl_r .results .item .asl_content h3, div.asl_r .results .item .asl_content h3 a:hover {
+    font-weight: bold !important;
+    color: #251954 !important;
+    font-size: 16px !important;
+}
+
+/*--------------------------------------------------------------
+# Plugin: Rate My Post
+--------------------------------------------------------------*/
+
+.rmp-widgets-container {
+    border: 2px solid;
+    border-color: var(--wp--preset--color--accent);
+    border-radius: 8px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    margin-top: 30px !important;
+}
+
+p.rmp-heading.rmp-heading--title {
+    font-weight: bold;
+    color: var(--wp--preset--color--accent);
+    font-size: unset;
+}
+
+button.rmp-feedback-widget__btn.rmp-btn.rmp-btn--large.js-rmp-feedback-button {
+    background: var(--wp--preset--color--accent);
+    font: var(--wp--preset--font-family--outfit);
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+textarea#feedback-text {
+    font-family: unset;
+    width: 100%;
+    font-size: 1.05rem;
+}
+
+p.rmp-feedback-widget__msg.js-rmp-feedback-msg {
+    font-weight: bold;
+}
+
+button.rmp-rating-widget__submit-btn.rmp-btn.js-submit-rating-btn.rmp-rating-widget__submit-btn--visible {
     text-decoration: none;
+    background-color: var(--wp--preset--color--accent);
+    border-radius: .33rem;
+    border-color: var(--wp--preset--color--contrast);
+    border-width: 0;
+    color: var(--wp--preset--color--base);
+    font-family: inherit;
+    font-style: normal;
+    font-weight: 500;
+    line-height: inherit;
+    padding-top: 0.6rem;
+    padding-right: 1rem;
+    padding-bottom: 0.6rem;
+    padding-left: 1rem;
 }
 
-.syllabus-sidebar h4 {
-    border-bottom: 1px dotted;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
 
-.syllabus-sidebar ol {
-    list-style-type: lower-alpha;
-    list-style-position: outside;
-    padding-left: 15px;
-    padding-bottom: 6px;
-}
-
-/*Fixing Mobile font size for post content*/
-.wp-block-post-content-is-layout-flow {
-    font-size: 18px !important;
-}
-
-/*Essential Block Navigation Menu mobile*/
 div.eb-nav-contents span.eb-menu-indicator {
     background: var(--wp--preset--color--accent) !important;
 }
@@ -266,26 +277,9 @@ ul.wp-block-navigation__submenu-container.wp-block-navigation-submenu {
     z-index: 1000 !important;
 }
 
-
 a.wp-block-navigation-item__content {
-    padding: 10px !important;
+    padding: 5px !important;
 }
-
-div.edu-post-content h3,
-div.edu-post-content h4,
-div.edu-post-content h5,
-div.edu-post-content h6 {
-    color: var(--wp--preset--color--contrast-2);
-}
-
-/*Collapsible menu on mobile*/
-:where(.wp-site-blocks *:focus) {
-    outline-width: 2px;
-    outline-style: solid
-}
-
-
-/*CSS for fixing Desktop Nav Menu Block Styling*/
 
 ul.wp-block-navigation__submenu-container {
     width: 250px !important;
@@ -301,12 +295,10 @@ div.wp-block-navigation__responsive-container {
     z-index: 1000 !important;
 }
 
-a.wp-block-navigation-item__content {
-    padding: 5px !important;
-}
+/*--------------------------------------------------------------
+# Mobile Responsive
+--------------------------------------------------------------*/
 
-
-/*Additional to fix on mobile*/
 @media only screen and (max-width: 600px) {
     ul.wp-block-navigation-submenu {
         margin: 0 !important;
@@ -342,5 +334,4 @@ a.wp-block-navigation-item__content {
         content: " -";
         color: var(--wp--preset--color--accent);
     }
-
 }

@@ -1,21 +1,20 @@
 <?php
 /**
- * Twenty Twenty-Four functions and definitions
+ * Education Blogs - Theme Functions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package Twenty Twenty-Four
- * @since Twenty Twenty-Four 1.0
+ * @package Education_Blogs
  */
-/**
- * Register block styles.
- */
+
+/*--------------------------------------------------------------
+# Block Styles
+--------------------------------------------------------------*/
 
 if ( ! function_exists( 'twentytwentyfour_block_styles' ) ) :
 	/**
 	 * Register custom block styles
 	 *
-	 * @since Twenty Twenty-Four 1.0
 	 * @return void
 	 */
 	function twentytwentyfour_block_styles() {
@@ -145,15 +144,14 @@ endif;
 
 add_action( 'init', 'twentytwentyfour_block_styles' );
 
-/**
- * Enqueue block stylesheets.
- */
+/*--------------------------------------------------------------
+# Block Stylesheets
+--------------------------------------------------------------*/
 
 if ( ! function_exists( 'twentytwentyfour_block_stylesheets' ) ) :
 	/**
 	 * Enqueue custom block stylesheets
 	 *
-	 * @since Twenty Twenty-Four 1.0
 	 * @return void
 	 */
 	function twentytwentyfour_block_stylesheets() {
@@ -179,15 +177,14 @@ endif;
 
 add_action( 'init', 'twentytwentyfour_block_stylesheets' );
 
-/**
- * Register pattern categories.
- */
+/*--------------------------------------------------------------
+# Pattern Categories
+--------------------------------------------------------------*/
 
 if ( ! function_exists( 'twentytwentyfour_pattern_categories' ) ) :
 	/**
 	 * Register pattern categories
 	 *
-	 * @since Twenty Twenty-Four 1.0
 	 * @return void
 	 */
 	function twentytwentyfour_pattern_categories() {
@@ -204,7 +201,9 @@ endif;
 
 add_action( 'init', 'twentytwentyfour_pattern_categories' );
 
-// Use style.css
+/*--------------------------------------------------------------
+# Theme Stylesheet
+--------------------------------------------------------------*/
 
 function enqueue_theme_style_css() {
     wp_enqueue_style(
@@ -216,5 +215,8 @@ function enqueue_theme_style_css() {
 }
 add_action('wp_enqueue_scripts', 'enqueue_theme_style_css');
 
-// Include custom functions
+/*--------------------------------------------------------------
+# Custom Functions Loader
+--------------------------------------------------------------*/
+
 require_once get_template_directory() . '/custom-functions.php';

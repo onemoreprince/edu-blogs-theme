@@ -24,7 +24,8 @@ function load_custom_modules() {
         'content-enhancements.php', // ToC, References, Text Hover, Markdown
         'admin-features.php',       // Word Count, TextHover Cleaner
         'shortcodes.php',           // All shortcodes
-        'welcome-email.php',           // Welcome email & magic link
+        'welcome-email.php',        // Welcome email & magic link
+        'post-content-fixer.php',   // Dash fixer & self-link remover (cron)
     );
 
     foreach ($modules as $module) {
