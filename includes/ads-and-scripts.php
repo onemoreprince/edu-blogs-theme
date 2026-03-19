@@ -42,8 +42,6 @@ function should_show_ads() {
  * - Google AdSense: Only loads for non-admin/subscriber users
  * - Instant Page: Preloads pages on hover for faster navigation
  * - Menu Collapse: Handles submenu toggle functionality
- * - Image Placeholder: Hides [Image:...] placeholder text
- * 
  * @return void
  */
 function add_frontend_scripts() {
@@ -54,15 +52,6 @@ function add_frontend_scripts() {
     
     <!-- Instant Page - Preload on hover -->
     <script src="//instant.page/5.2.0" type="module" integrity="sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z"></script>
-    
-    <!-- Hide Image Placeholders -->
-    <script>
-    document.querySelectorAll('p').forEach(function(paragraph) {
-        if (paragraph.textContent.startsWith('[Image:') && paragraph.textContent.endsWith(']')) {
-            paragraph.style.display = 'none';
-        }
-    });
-    </script>
     
     <!-- Submenu Toggle Handler -->
     <script>

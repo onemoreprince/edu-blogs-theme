@@ -355,46 +355,31 @@ add_filter('the_content', 'replace_text_hover');
 --------------------------------------------------------------*/
 
 /**
- * Hide paragraphs containing [Image:...] placeholders
- * 
- * Adds CSS and JavaScript to hide placeholder text on single posts/pages.
- * 
- * @return void
+ * Strip [Image:...] placeholder paragraphs from rendered post content.
+ *
+ * Runs as a the_content filter so the text is removed from the final HTML
+ * before it reaches the browser or any crawler. The database is never touched.
+ * Admins and editors (anyone with edit_posts capability) still see the
+ * placeholders so they can replace them with real images.
+ *
+ * @param  string $content Post content HTML.
+ * @return string          Filtered content.
  */
-function hide_image_placeholder_paragraphs() {
-    if (!is_single() && !is_page()) {
-        return;
+function strip_image_placeholder_paragraphs( $content ) {
+    if ( current_user_can( 'edit_posts' ) ) {
+        return $content;
     }
-    ?>
-    <style type="text/css">
-        .entry-content p:has-text("[Image:"),
-        .post-content p:has-text("[Image:"),
-        .content p:has-text("[Image:") {
-            display: none !important;
-        }
-    </style>
-    
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            var contentSelectors = ['.entry-content', '.post-content', '.content', 'article', '.single-post'];
-            
-            contentSelectors.forEach(function(selector) {
-                var container = document.querySelector(selector);
-                if (container) {
-                    var paragraphs = container.querySelectorAll('p');
-                    paragraphs.forEach(function(p) {
-                        var text = p.textContent.trim();
-                        if (text.startsWith('[Image:')) {
-                            p.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-    <?php
+
+    // Remove <p> tags whose sole text content is [Image: ...]
+    $content = preg_replace(
+        '/\s*<p[^>]*>\s*\[Image:[^\]]*\]\s*<\/p>\s*/i',
+        '',
+        $content
+    );
+
+    return $content;
 }
-add_action('wp_head', 'hide_image_placeholder_paragraphs');
+add_filter( 'the_content', 'strip_image_placeholder_paragraphs', 20 );
 
 /*--------------------------------------------------------------
 # Markdown to HTML Converter
