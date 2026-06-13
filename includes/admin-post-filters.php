@@ -19,18 +19,17 @@ if (!defined('ABSPATH')) {
 --------------------------------------------------------------*/
 
 /**
- * Available "not updated in X+" options.
+ * Available stale-post bucket options.
  *
  * @return array key => label
  */
 function edu_stale_filter_options() {
     return array(
-        '1month'  => 'Not updated in 1+ month',
-        '3months' => 'Not updated in 3+ months',
-        '6months' => 'Not updated in 6+ months',
-        '1year'   => 'Not updated in 1+ year',
-        '2years'  => 'Not updated in 2+ years',
-        '3years'  => 'Not updated in 3+ years',
+        '2months' => 'Last updated over 2 months ago',
+        '4months' => 'Last updated over 4 months ago',
+        '6months' => 'Last updated over 6 months ago',
+        '8months' => 'Last updated over 8 months ago',
+        '1year'   => 'Last updated over 1 year ago',
     );
 }
 
@@ -117,12 +116,11 @@ add_action('pre_get_posts', 'edu_apply_stale_filter');
  */
 function edu_stale_filter_cutoff_string($key) {
     $map = array(
-        '1month'  => '-1 month',
-        '3months' => '-3 months',
+        '2months' => '-2 months',
+        '4months' => '-4 months',
         '6months' => '-6 months',
+        '8months' => '-8 months',
         '1year'   => '-1 year',
-        '2years'  => '-2 years',
-        '3years'  => '-3 years',
     );
 
     if (!isset($map[$key])) {

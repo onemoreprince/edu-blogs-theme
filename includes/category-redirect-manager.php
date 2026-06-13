@@ -145,8 +145,62 @@ function edu_cat_redirect_handle_slug_change($term_id, $tt_id, $taxonomy) {
     }
 
     edu_cat_redirect_insert_or_update($old_slug, $new_slug, (int) $term_id);
+    edu_cat_redirect_rewrite_syllabus_meta($old_slug, $new_slug);
 }
 add_action('edited_term', 'edu_cat_redirect_handle_slug_change', 10, 3);
+
+/**
+ * Rewrite /old-slug/ to /new-slug/ in every category's "syllabus" term meta
+ * (an ACF Pro WYSIWYG field containing inline HTML with links like
+ * <a href="/old-slug/some-post">…</a>).
+ *
+ * The match is wrapped in slashes on both sides so partial-slug matches
+ * inside longer slugs or words are never touched. Categories whose
+ * syllabus doesn't contain the needle are skipped without a write.
+ *
+ * @param string $old_slug
+ * @param string $new_slug
+ * @return int Number of categories updated.
+ */
+function edu_cat_redirect_rewrite_syllabus_meta($old_slug, $new_slug) {
+    $old_slug = sanitize_title($old_slug);
+    $new_slug = sanitize_title($new_slug);
+
+    if ($old_slug === '' || $new_slug === '' || $old_slug === $new_slug) {
+        return 0;
+    }
+
+    $term_ids = get_terms(array(
+        'taxonomy'   => 'category',
+        'hide_empty' => false,
+        'fields'     => 'ids',
+    ));
+
+    if (is_wp_error($term_ids) || empty($term_ids)) {
+        return 0;
+    }
+
+    $needle      = '/' . $old_slug . '/';
+    $replacement = '/' . $new_slug . '/';
+    $updated     = 0;
+
+    foreach ($term_ids as $term_id) {
+        $syllabus = get_term_meta((int) $term_id, 'syllabus', true);
+        if (!is_string($syllabus) || $syllabus === '') {
+            continue;
+        }
+        if (strpos($syllabus, $needle) === false) {
+            continue;
+        }
+        $rewritten = str_replace($needle, $replacement, $syllabus);
+        if ($rewritten !== $syllabus) {
+            update_term_meta((int) $term_id, 'syllabus', $rewritten);
+            $updated++;
+        }
+    }
+
+    return $updated;
+}
 
 /*--------------------------------------------------------------
 # Insert / Chain-Collapse Logic
