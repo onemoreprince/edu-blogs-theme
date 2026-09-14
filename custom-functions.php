@@ -28,6 +28,7 @@ function load_custom_modules() {
         'welcome-email.php',             // Welcome email & magic link
         'post-content-fixer.php',        // Dash fixer & self-link remover (cron)
         'category-redirect-manager.php', // Auto 301 redirects on category slug rename
+        'nofollow-external-links.php',   // Nofollow external links except network sites (list from footer)
     );
 
     foreach ($modules as $module) {
