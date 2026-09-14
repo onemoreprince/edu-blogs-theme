@@ -347,7 +347,7 @@ table {
   border-collapse: collapse;
   margin: 1.5em 0;
   font-size: 0.95em;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 th,
@@ -355,8 +355,6 @@ td {
   padding: 0.6em 1em;
   text-align: left;
   border: 1px solid #ddd;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 
 th {
@@ -370,10 +368,13 @@ tr:nth-child(even) {
 
 @media (max-width: 600px) {
   table {
+    table-layout: fixed;
     font-size: 0.8em;
   }
   th,
   td {
     padding: 0.4em 0.5em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 }
