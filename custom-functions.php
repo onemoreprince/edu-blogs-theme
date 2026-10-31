@@ -21,7 +21,7 @@ define('CUSTOM_INCLUDES_PATH', get_stylesheet_directory() . '/includes/');
 function load_custom_modules() {
     $modules = array(
         'ads-and-scripts.php',           // AdSense, Instant Page, Menu scripts
-        'content-enhancements.php',      // ToC, References, Text Hover, Markdown
+        'content-enhancements.php',      // ToC, References, Text Hover, Markdown, Last Updated date
         'admin-features.php',            // Word Count, TextHover Cleaner
         'admin-post-filters.php',        // "Last updated" stale-post filter on Posts list
         'shortcodes.php',                // All shortcodes

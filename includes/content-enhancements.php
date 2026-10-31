@@ -8,6 +8,7 @@
  * - Text Hover Tooltips
  * - Image Placeholder Hiding
  * - Markdown to HTML Conversion
+ * - Last Updated Date (post meta)
  * 
  */
 
@@ -492,3 +493,40 @@ class WP_Markdown_Fixer {
 add_action('init', function() {
     new WP_Markdown_Fixer();
 });
+
+/*--------------------------------------------------------------
+# Last Updated Date
+--------------------------------------------------------------*/
+
+/**
+ * Fall back to the publish date for "Last updated" Post Date blocks
+ * 
+ * Post Date blocks bound to the post's modified date (parts/post-meta.html)
+ * render nothing when the post was never edited, because core returns an
+ * empty value unless the modified date is later than the publish date.
+ * Show the publish date in that case instead.
+ * 
+ * @param mixed    $value          The computed value for the source
+ * @param string   $name           The name of the source
+ * @param array    $source_args    Source arguments, i.e. array('field' => 'modified')
+ * @param WP_Block $block_instance The block instance
+ * @param string   $attribute_name The name of the bound attribute
+ * @return mixed The modified date, or the publish date as a fallback
+ */
+function edu_post_date_modified_fallback($value, $name, $source_args, $block_instance, $attribute_name) {
+    if ($name !== 'core/post-data' || $value !== '' || $block_instance->name !== 'core/post-date' || $attribute_name !== 'datetime') {
+        return $value;
+    }
+
+    if (!isset($source_args['field']) || $source_args['field'] !== 'modified') {
+        return $value;
+    }
+
+    $post_id = isset($block_instance->context['postId']) ? $block_instance->context['postId'] : null;
+    if (!$post_id) {
+        return $value;
+    }
+
+    return esc_attr(get_the_date('c', $post_id));
+}
+add_filter('block_bindings_source_value', 'edu_post_date_modified_fallback', 10, 5);
