@@ -6,7 +6,7 @@
  * EXCEPT links to our own network of educational sites.
  *
  * The network list is NOT configured anywhere in WP admin. It is read straight
- * from the footer template part (parts/footer.html, the "#footer-sites" block),
+ * from the footer template part (parts/footer-sites.html, the "#footer-sites" block),
  * which is the single place we already maintain when adding a new site.
  * Add a site to the footer, push the theme, and every site in the network
  * treats it as "ours" (dofollow) automatically.
@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
 }
 
 /*--------------------------------------------------------------
-# Network Domain List (parsed from parts/footer.html)
+# Network Domain List (parsed from parts/footer-sites.html)
 --------------------------------------------------------------*/
 
 /**
@@ -69,7 +69,7 @@ function edu_normalize_host($url_or_host) {
 /**
  * Get the list of network domains from the footer template part.
  *
- * Reads parts/footer.html, isolates the "#footer-sites" block and extracts
+ * Reads parts/footer-sites.html, isolates the "#footer-sites" block and extracts
  * every absolute href. Result is cached per request.
  *
  * @return string[] Lowercase hosts without "www." (e.g. ['slm.mba', 'psychology.town'])
@@ -82,7 +82,7 @@ function edu_get_network_domains() {
     }
 
     $domains = array();
-    $file    = get_theme_file_path('parts/footer.html');
+    $file    = get_theme_file_path('parts/footer-sites.html');
 
     if (is_readable($file)) {
         $html = file_get_contents($file);

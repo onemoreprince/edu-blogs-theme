@@ -1048,6 +1048,11 @@
 		},
 		{
 			"area": "uncategorized",
+			"name": "footer-sites",
+			"title": "Footer Other Sites"
+		},
+		{
+			"area": "uncategorized",
 			"name": "sidebar",
 			"title": "Sidebar"
 		},

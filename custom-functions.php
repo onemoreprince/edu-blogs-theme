@@ -30,6 +30,7 @@ function load_custom_modules() {
         'category-redirect-manager.php', // Auto 301 redirects on category slug rename
         'nofollow-external-links.php',   // Nofollow external links except network sites (list from footer)
         'sheet-modified-date.php',       // Google Sheet sets post modified date via REST
+        'footer-sites.php',              // Show "other sites" footer block only on homepage & contact
     );
 
     foreach ($modules as $module) {
