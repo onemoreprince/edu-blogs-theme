@@ -31,6 +31,7 @@ function load_custom_modules() {
         'nofollow-external-links.php',   // Nofollow external links except network sites (list from footer)
         'sheet-modified-date.php',       // Google Sheet sets post modified date via REST
         'footer-sites.php',              // Show "other sites" footer block only on homepage & contact
+        'svg-figures.php',               // Inline SVG figures ([edu_svg]), SVG uploads, Image Status log
     );
 
     foreach ($modules as $module) {

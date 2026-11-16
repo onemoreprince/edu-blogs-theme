@@ -7,7 +7,7 @@ Description: A custom theme for bunch of educational blog I manage. It contains 
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 4.8.1
+Version: 4.9.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: education-blogs
@@ -377,4 +377,22 @@ tr:nth-child(even) {
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
+}
+
+/*--------------------------------------------------------------
+# SVG Figures ([edu_svg] shortcode)
+--------------------------------------------------------------*/
+
+.edu-svg-figure {
+  margin: 2rem auto;
+  max-width: 100%;
+}
+
+.edu-svg-figure svg {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  margin-inline: auto;
+  font-family: inherit;
 }
