@@ -32,6 +32,7 @@ function load_custom_modules() {
         'sheet-modified-date.php',       // Google Sheet sets post modified date via REST
         'footer-sites.php',              // Show "other sites" footer block only on homepage & contact
         'svg-figures.php',               // Inline SVG figures ([edu_svg]), SVG uploads, Image Status log
+        'template-resets.php',           // One-time reset of Site Editor copies of fixed templates
     );
 
     foreach ($modules as $module) {
